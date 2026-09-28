@@ -1,3 +1,7 @@
+# decor-plants
+
+Plants, garden maintenance, balcony gardening, garden design, and related services.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## SEO Deployment Configuration
