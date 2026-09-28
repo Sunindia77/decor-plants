@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## SEO Deployment Configuration
+
+Set `NEXT_PUBLIC_SITE_URL` to the public production origin before deployment, for example `https://www.your-domain.com` (without a trailing slash). The sitemap at `/sitemap.xml` uses this value to list the homepage and all service pages, and `/robots.txt` references that sitemap. Without the value, the sitemap intentionally returns no URLs rather than publishing a placeholder domain.
+
+The service pages include Pune-focused titles, descriptions, visible copy and FAQs. Search position and eligibility for search result enhancements are determined by search engines and are not guaranteed by metadata or structured data alone.
+
 ## Getting Started
 
 First, run the development server:
