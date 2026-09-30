@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Image from "next/image";
 import BeforeAfter from "@/src/components/BeforeAfter";
 import Header from "@/src/components/Header";
@@ -6,6 +7,28 @@ import QuoteForm from "@/src/components/QuoteForm";
 import TestimonialsFAQ from "@/src/components/TestimonialsFAQ";
 import WhyChooseUs from "@/src/components/WhyChooseUs";
 import { services } from "@/src/data/services";
+
+const spaceChoices = [
+  { title: "Home Garden", description: "Create a natural retreat at home.", image: "/images/garden/modern-garden-home.png" },
+  { title: "Balcony", description: "Bring living into small spaces.", image: "/images/garden/pergola-garden-lounge.png" },
+  { title: "Terrace", description: "Turn your terrace into an urban escape.", image: "/images/garden/Luxury%20Terrace%20Garden.png" },
+  { title: "Office", description: "Bring nature to your workspace.", image: "/images/garden/indoor-tropical-garden.png" },
+  { title: "Vertical Wall", description: "Green walls with modern design.", image: "/images/garden/indoor-garden-lounge.png" },
+  { title: "Indoor Plants", description: "Beautiful plants for healthier interiors.", image: "/images/garden/garden-courtyard-bougainvillea.png" },
+];
+
+const serviceIcons = [
+  "bi-flower1",
+  "bi-tree",
+  "bi-droplet",
+  "bi-bricks",
+  "bi-bricks",
+  "bi-scissors",
+  "bi-building",
+  "bi-tree",
+  "bi-heart-pulse",
+  "bi-stars",
+];
 
 export const metadata: Metadata = {
   title: "Garden Maintenance Services in Pune | Decor-Plants",
@@ -25,7 +48,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -47,6 +71,7 @@ export default function Home() {
   return (
     <main>
       <script
+        nonce={nonce}
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(localBusinessSchema).replace(/</g, "\\u003c"),
@@ -136,14 +161,7 @@ export default function Home() {
           </div>
 
           <div className="row g-4 mt-4">
-            {[
-              ["Home Garden", "Create a natural retreat at home.", "/images/garden/modern-garden-home.png"],
-              ["Balcony", "Bring living into small spaces.", "/images/garden/pergola-garden-lounge.png"],
-              ["Terrace", "Turn your terrace into an urban escape.", "/images/garden/Luxury%20Terrace%20Garden.png"],
-              ["Office", "Bring nature to your workspace.", "/images/garden/indoor-tropical-garden.png"],
-              ["Vertical Wall", "Green walls with modern design.", "/images/garden/indoor-garden-lounge.png"],
-              ["Indoor Plants", "Beautiful plants for healthier interiors.", "/images/garden/garden-courtyard-bougainvillea.png"],
-            ].map(([title, description, image]) => (
+            {spaceChoices.map(({ title, description, image }) => (
               <div className="col-md-6 col-lg-4" key={title}>
                 <div className="space-card">
                   <div className="space-card-image">
@@ -192,13 +210,14 @@ export default function Home() {
             {services.map((service, index) => (
               <div className="col-md-6 col-lg-4" key={service.slug}>
                 <div className="service-card">
-                  <div
+                  <img
                     className="service-card-art"
-                    style={{ backgroundImage: `url("${service.image}")` }}
+                    src={service.image}
+                    alt=""
                     aria-hidden="true"
                   />
                   <div className="service-card-copy">
-                    <div className="service-icon"><i className={`bi ${["bi-flower1", "bi-tree", "bi-droplet", "bi-bricks", "bi-bricks", "bi-scissors", "bi-building", "bi-tree", "bi-heart-pulse", "bi-stars"][index]}`} aria-hidden="true"></i></div>
+                    <div className="service-icon"><i className={`bi ${serviceIcons[index] ?? "bi-flower1"}`} aria-hidden="true"></i></div>
                     <h3>{service.title}</h3>
                     <p>{service.description}</p>
                   <a href={`/services/${service.slug}`}>
