@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Image from "next/image";
 
 export default function QuoteForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -296,6 +297,18 @@ Please contact me regarding this project.
               </p>
 
             </form>
+
+            <div className="quote-whatsapp-qr">
+              <h3>Prefer WhatsApp?</h3>
+              <p>Scan to chat with Decor-Plants</p>
+              <Image
+                src="/images/garden/WhatsApp%20BarCode%20Account2020.png"
+                width={1278}
+                height={1230}
+                alt="Decor-Plants WhatsApp Business QR Code"
+              />
+              <p>Scan to start a WhatsApp conversation</p>
+            </div>
 
           </div>
 

@@ -136,12 +136,14 @@ export default async function Home() {
             </div>
           </div>
         </div>
-        <a className="hero-feature" href="#projects">
-          <img
-            src="/images/garden/Luxury%20Terrace%20Garden.png"
-            alt=""
+        <a className="hero-feature hero-qr-feature" href="#quote">
+          <Image
+            src="/images/garden/WhatsApp%20BarCode%20Account2020.png"
+            width={1278}
+            height={1230}
+            alt="Decor-Plants WhatsApp Business QR Code"
           />
-          <span><strong>Terrace Garden</strong><small>Modern & serene</small></span>
+          <span><strong>Prefer WhatsApp?</strong><small>Scan to chat with Decor-Plants</small></span>
           <i className="bi bi-arrow-up-right" aria-hidden="true"></i>
         </a>
         <a className="hero-scroll" href="#spaces" aria-label="Scroll to explore">
@@ -383,7 +385,7 @@ export default async function Home() {
               Get a free consultation and let&apos;s create something beautiful together.
             </p>
 
-            <a href="tel:+919999999999" className="btn primary-btn">
+            <a href="#quote" className="btn primary-btn">
               Book a Free Consultation
               <i className="bi bi-arrow-right"></i>
             </a>
@@ -406,6 +408,10 @@ export default async function Home() {
                 />
               </a>
               <p>Creating beautiful green spaces for healthier, happier lives.</p>
+              <p className="footer-founder">
+                Co-Founder: Suraj Satav<br />
+                Phone: <a href="tel:+918788159687">+91-8788159687</a>
+              </p>
             </div>
 
             <nav className="footer-links" aria-label="Footer navigation">
@@ -427,7 +433,7 @@ export default async function Home() {
           <div className="footer-bottom">
             <span>© 2026 Decor-Plants. All rights reserved.</span>
             <div>
-              <a href="#contact">Privacy Policy</a>
+              <a href="/privacy-policy">Privacy Policy</a>
               <a href="#contact">Terms &amp; Conditions</a>
             </div>
           </div>
