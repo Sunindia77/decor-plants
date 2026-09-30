@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Header from "@/src/components/Header";
@@ -42,6 +43,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
     notFound();
   }
 
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
+
   const structuredData = [
     {
       "@context": "https://schema.org",
@@ -70,6 +73,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
   return (
     <main>
       <script
+        nonce={nonce}
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),

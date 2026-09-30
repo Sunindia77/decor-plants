@@ -1,48 +1,49 @@
+const benefits = [
+  {
+    number: "01",
+    title: "Expert Design & Planning",
+    description:
+      "Personalized designs for every space and lifestyle.",
+    icon: "bi-palette",
+  },
+  {
+    number: "02",
+    title: "High-Quality Plants",
+    description:
+      "A wide range of healthy indoor and outdoor plants.",
+    icon: "bi-check2-circle",
+  },
+  {
+    number: "03",
+    title: "Sustainable Solutions",
+    description:
+      "Eco-friendly and low-maintenance options.",
+    icon: "bi-flower1",
+  },
+  {
+    number: "04",
+    title: "Transparent Pricing",
+    description:
+      "Clear estimates with no hidden costs.",
+    icon: "bi-tools",
+  },
+  {
+    number: "05",
+    title: "Long-Term Garden Care",
+    description:
+      "Ongoing maintenance for lasting beauty.",
+    icon: "bi-receipt",
+  },
+  {
+    number: "06",
+    title: "Trusted by 500+ Clients",
+    description:
+      "A proven track record and happy customers.",
+    icon: "bi-heart",
+  },
+];
+
 export default function WhyChooseUs() {
-  const benefits = [
-    {
-      number: "01",
-      title: "Expert Design & Planning",
-      description:
-        "Personalized designs for every space and lifestyle.",
-      icon: "bi-palette",
-    },
-    {
-      number: "02",
-      title: "High-Quality Plants",
-      description:
-        "A wide range of healthy indoor and outdoor plants.",
-      icon: "bi-check2-circle",
-    },
-    {
-      number: "03",
-      title: "Sustainable Solutions",
-      description:
-        "Eco-friendly and low-maintenance options.",
-      icon: "bi-flower1",
-    },
-    {
-      number: "04",
-      title: "Transparent Pricing",
-      description:
-        "Clear estimates with no hidden costs.",
-      icon: "bi-tools",
-    },
-    {
-      number: "05",
-      title: "Long-Term Garden Care",
-      description:
-        "Ongoing maintenance for lasting beauty.",
-      icon: "bi-receipt",
-    },
-    {
-      number: "06",
-      title: "Trusted by 500+ Clients",
-      description:
-        "A proven track record and happy customers.",
-      icon: "bi-heart",
-    },
-  ];
 
   return (
     <>
