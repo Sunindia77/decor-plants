@@ -139,8 +139,10 @@ export default async function Home() {
         <a className="hero-feature hero-qr-feature" href="#quote">
           <Image
             src="/images/garden/WhatsApp%20BarCode%20Account2020.png"
-            width={1278}
-            height={1230}
+            width={160}
+            height={160}
+            priority
+            sizes="160px"
             alt="Decor-Plants WhatsApp Business QR Code"
           />
           <span><strong>Prefer WhatsApp?</strong><small>Scan to chat with Decor-Plants</small></span>
@@ -167,7 +169,14 @@ export default async function Home() {
               <div className="col-md-6 col-lg-4" key={title}>
                 <div className="space-card">
                   <div className="space-card-image">
-                    <img src={image} alt={title} />
+                    <Image
+                      src={image}
+                      alt={title}
+                      width={600}
+                      height={400}
+                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
                     <span className="space-icon"><i className="bi bi-leaf-fill" aria-hidden="true"></i></span>
                   </div>
                   <h3>{title}</h3>
@@ -212,11 +221,15 @@ export default async function Home() {
             {services.map((service, index) => (
               <div className="col-md-6 col-lg-4" key={service.slug}>
                 <div className="service-card">
-                  <img
+                  <Image
                     className="service-card-art"
                     src={service.image}
                     alt=""
                     aria-hidden="true"
+                    width={600}
+                    height={400}
+                    loading="lazy"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <div className="service-card-copy">
                     <div className="service-icon"><i className={`bi ${serviceIcons[index] ?? "bi-flower1"}`} aria-hidden="true"></i></div>
@@ -262,23 +275,24 @@ export default async function Home() {
           </div>
 
           <div className="projects-grid mt-4">
-            {/* Project 1 */}
+            {/* Project 1 — LCP candidate: eager load */}
             <div>
               <div className="project-card project-large">
-                <img
+                <Image
                   src="/images/garden/Luxury%20Terrace%20Garden.png"
                   alt="Luxury terrace garden"
+                  width={900}
+                  height={600}
+                  priority
+                  sizes="(max-width: 768px) 100vw, 66vw"
                 />
 
                 <div className="project-overlay">
                   <div>
                     <span>RESIDENTIAL</span>
-
                     <h3>Luxury Terrace Garden</h3>
-
                     <p>Pune, Maharashtra</p>
                   </div>
-
                   <div className="project-arrow">
                     <i className="bi bi-arrow-up-right"></i>
                   </div>
@@ -289,20 +303,21 @@ export default async function Home() {
             {/* Project 2 */}
             <div>
               <div className="project-card">
-                <img
+                <Image
                   src="/images/garden/Urban%20Balcony.png"
                   alt="Modern balcony garden"
+                  width={600}
+                  height={500}
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
 
                 <div className="project-overlay">
                   <div>
                     <span>BALCONY</span>
-
                     <h3>Urban Balcony</h3>
-
                     <p>Pune, Maharashtra</p>
                   </div>
-
                   <div className="project-arrow">
                     <i className="bi bi-arrow-up-right"></i>
                   </div>
@@ -313,20 +328,21 @@ export default async function Home() {
             {/* Project 3 */}
             <div>
               <div className="project-card">
-                <img
+                <Image
                   src="/images/garden/Corporate%20Green%20Space.png"
                   alt="Indoor office plants"
+                  width={600}
+                  height={500}
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
 
                 <div className="project-overlay">
                   <div>
                     <span>COMMERCIAL</span>
-
                     <h3>Corporate Green Space</h3>
-
                     <p>Hinjewadi, Pune</p>
                   </div>
-
                   <div className="project-arrow">
                     <i className="bi bi-arrow-up-right"></i>
                   </div>
@@ -337,20 +353,21 @@ export default async function Home() {
             {/* Project 4 */}
             <div>
               <div className="project-card project-large">
-                <img
+                <Image
                   src="/images/garden/Contemporary%20Garden.png"
                   alt="Beautiful garden landscape"
+                  width={900}
+                  height={600}
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 66vw"
                 />
 
                 <div className="project-overlay">
                   <div>
                     <span>LANDSCAPING</span>
-
                     <h3>Contemporary Garden</h3>
-
                     <p>Pune, Maharashtra</p>
                   </div>
-
                   <div className="project-arrow">
                     <i className="bi bi-arrow-up-right"></i>
                   </div>
@@ -402,8 +419,10 @@ export default async function Home() {
                 <Image
                   className="brand-logo-image"
                   src="/images/garden/logo-decor-plants.png"
-                  width={2048}
-                  height={768}
+                  width={240}
+                  height={90}
+                  loading="lazy"
+                  sizes="240px"
                   alt="Decor-Plants, transform your space into a living experience"
                 />
               </a>
@@ -423,10 +442,9 @@ export default async function Home() {
             </nav>
 
             <div className="footer-socials" aria-label="Social media">
-              <a href="#contact" aria-label="Instagram"><i className="bi bi-instagram" aria-hidden="true" /></a>
-              <a href="#contact" aria-label="Facebook"><i className="bi bi-facebook" aria-hidden="true" /></a>
-              <a href="#contact" aria-label="LinkedIn"><i className="bi bi-linkedin" aria-hidden="true" /></a>
-              <a href="#contact" aria-label="YouTube"><i className="bi bi-youtube" aria-hidden="true" /></a>
+              <a href="https://www.instagram.com/decorplants_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i className="bi bi-instagram" aria-hidden="true" /></a>
+              <a href="https://www.facebook.com/DecorPlants7/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i className="bi bi-facebook" aria-hidden="true" /></a>
+              <a href="https://www.linkedin.com/company/decorplants/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i className="bi bi-linkedin" aria-hidden="true" /></a>
             </div>
           </div>
 
@@ -434,7 +452,7 @@ export default async function Home() {
             <span>© 2026 Decor-Plants. All rights reserved.</span>
             <div>
               <a href="/privacy-policy">Privacy Policy</a>
-              <a href="#contact">Terms &amp; Conditions</a>
+              <a href="/terms-and-conditions">Terms &amp; Conditions</a>
             </div>
           </div>
         </div>

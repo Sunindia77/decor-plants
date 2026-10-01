@@ -6,21 +6,48 @@ import Image from "next/image";
 export default function QuoteForm() {
   const [submitted, setSubmitted] = useState(false);
 
+  // ── Input sanitization ──────────────────────────────────────────────────────
+  // Remove individual characters (<, >, ', ", `, ;) that enable script/tag injection.
+  // Using character-level sanitization avoids incomplete multi-character bypasses (CodeQL).
+  const sanitize = (value: string, maxLen = 200): string =>
+    value
+      .replace(/[<>'"`;]/g, "")
+      .trim()
+      .slice(0, maxLen);
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const form = event.currentTarget;
-
     const formData = new FormData(form);
 
-    const name = String(formData.get("name") || "");
-    const phone = String(formData.get("phone") || "");
-    const email = String(formData.get("email") || "");
-    const propertyType = String(formData.get("propertyType") || "");
-    const city = String(formData.get("city") || "");
-    const service = String(formData.get("service") || "");
-    const area = String(formData.get("area") || "");
-    const message = String(formData.get("message") || "");
+    const name         = sanitize(String(formData.get("name")         || ""), 100);
+    const phone        = sanitize(String(formData.get("phone")        || ""), 20);
+    const email        = sanitize(String(formData.get("email")        || ""), 150);
+    const propertyType = sanitize(String(formData.get("propertyType") || ""), 50);
+    const city         = sanitize(String(formData.get("city")         || ""), 100);
+    const service      = sanitize(String(formData.get("service")      || ""), 100);
+    const area         = sanitize(String(formData.get("area")         || ""), 50);
+    const message      = sanitize(String(formData.get("message")      || ""), 500);
+
+    // ── Validate phone: digits, spaces, +, -, () only; 7–15 digits ────────────
+    const digitsOnly = phone.replace(/\D/g, "");
+    if (phone && (!/^[+\d\s\-().]{7,20}$/.test(phone) || digitsOnly.length < 7)) {
+      alert("Please enter a valid phone number.");
+      return;
+    }
+
+    // ── Validate email format ─────────────────────────────────────────────────
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // ── Validate name: no purely numeric or symbol strings ────────────────────
+    if (name && !/[a-zA-Z]/.test(name)) {
+      alert("Please enter your name.");
+      return;
+    }
 
     const whatsappMessage = `
 Hello Decor-Plants! 🌿
@@ -156,6 +183,8 @@ Please contact me regarding this project.
                     name="name"
                     type="text"
                     placeholder="Your name"
+                    maxLength={100}
+                    autoComplete="name"
                     required
                   />
 
@@ -173,6 +202,9 @@ Please contact me regarding this project.
                     name="phone"
                     type="tel"
                     placeholder="+91 XXXXX XXXXX"
+                    pattern="[+\d\s\-().]{7,20}"
+                    maxLength={20}
+                    autoComplete="tel"
                     required
                   />
 
@@ -194,6 +226,8 @@ Please contact me regarding this project.
                     name="email"
                     type="email"
                     placeholder="you@example.com"
+                    maxLength={150}
+                    autoComplete="email"
                   />
 
                 </div>
@@ -226,7 +260,7 @@ Please contact me regarding this project.
                     City *
                   </label>
 
-                  <input id="city" name="city" type="text" placeholder="Pune" required />
+                  <input id="city" name="city" type="text" placeholder="Pune" maxLength={100} autoComplete="address-level2" required />
 
                 </div>
 
@@ -242,6 +276,8 @@ Please contact me regarding this project.
                     name="area"
                     type="text"
                     placeholder="e.g. 500 sq.ft"
+                    maxLength={50}
+                    pattern="[\d\s.a-zA-Z]{0,50}"
                   />
 
                 </div>
@@ -274,6 +310,7 @@ Please contact me regarding this project.
                   name="message"
                   rows={4}
                   placeholder="Tell us about your space and requirements..."
+                  maxLength={500}
                 ></textarea>
 
               </div>

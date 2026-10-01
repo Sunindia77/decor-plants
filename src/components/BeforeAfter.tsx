@@ -1,9 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import Image from "next/image";
 
 export default function BeforeAfter() {
-  const [position, setPosition] = useState(50);
+  // Refs for the two elements whose position changes on every drag event.
+  // We write to element.style directly (DOM API) rather than via JSX style={{}}
+  // because inline HTML style="" attributes are blocked by CSP style-src-attr,
+  // while JavaScript-assigned styles are NOT subject to that restriction.
+  const beforeRef = useRef<HTMLDivElement>(null);
+  const dividerRef = useRef<HTMLDivElement>(null);
+  const positionRef = useRef(50);
+
+  // Apply the current position to the DOM nodes without a React re-render
+  const applyPosition = useCallback((pct: number) => {
+    positionRef.current = pct;
+    if (beforeRef.current)  beforeRef.current.style.width = `${pct}%`;
+    if (dividerRef.current) dividerRef.current.style.left  = `${pct}%`;
+  }, []);
+
+  // Set initial position after mount (server-render has no inline style)
+  useEffect(() => {
+    applyPosition(50);
+  }, [applyPosition]);
 
   return (
     <section className="before-after-section">
@@ -41,9 +60,13 @@ export default function BeforeAfter() {
           {/* AFTER IMAGE */}
           <div className="comparison-after">
 
-            <img
+            <Image
               src="/images/garden/after.png"
               alt="Beautiful transformed garden"
+              width={900}
+              height={600}
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 60vw"
             />
 
             <span className="comparison-label after-label">
@@ -53,17 +76,16 @@ export default function BeforeAfter() {
           </div>
 
 
-          {/* BEFORE IMAGE */}
-          <div
-            className="comparison-before"
-            style={{
-              width: `${position}%`,
-            }}
-          >
+          {/* BEFORE IMAGE — width set via ref, NOT inline style attr */}
+          <div ref={beforeRef} className="comparison-before" suppressHydrationWarning>
 
-            <img
+            <Image
               src="/images/garden/Before.png"
               alt="Garden space before transformation"
+              width={900}
+              height={600}
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 60vw"
             />
 
             <span className="comparison-label before-label">
@@ -73,13 +95,8 @@ export default function BeforeAfter() {
           </div>
 
 
-          {/* SLIDER LINE */}
-          <div
-            className="comparison-divider"
-            style={{
-              left: `${position}%`,
-            }}
-          >
+          {/* SLIDER LINE — left position set via ref, NOT inline style attr */}
+          <div ref={dividerRef} className="comparison-divider" suppressHydrationWarning>
 
             <div className="comparison-handle">
               <i className="bi bi-chevron-left"></i>
@@ -94,10 +111,8 @@ export default function BeforeAfter() {
             type="range"
             min="0"
             max="100"
-            value={position}
-            onChange={(event) =>
-              setPosition(Number(event.target.value))
-            }
+            defaultValue={50}
+            onChange={(event) => applyPosition(Number(event.target.value))}
             className="comparison-input"
             aria-label="Compare before and after"
           />

@@ -3290,23 +3290,41 @@ body {
   font-size: 28px;
 }
 
-.privacy-policy h1 {
+.privacy-policy h1,
+.terms-and-conditions h1 {
   margin: 8px 0 12px;
   color: var(--forest);
   font-size: 36px;
 }
 
-.privacy-policy {
-  padding-top: 160px;
+.privacy-policy,
+.terms-and-conditions {
+  padding-top: 125px;
 }
 
-.privacy-policy a {
+.privacy-policy a,
+.terms-and-conditions a {
   color: var(--forest-light);
   text-underline-offset: 3px;
 }
 
-.privacy-policy h2:not(:first-of-type) {
+.privacy-policy h2:not(:first-of-type),
+.terms-and-conditions h2:not(:first-of-type) {
   margin-top: 28px;
+}
+
+.terms-and-conditions ul,
+.terms-and-conditions ol {
+  max-width: 780px;
+  margin: 12px 0 24px;
+  padding-left: 24px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.terms-and-conditions li {
+  margin-bottom: 8px;
 }
 
 .service-local-faqs {
@@ -3337,5 +3355,6 @@ body {
   .service-local-content { padding: 38px 0; }
   .service-local-content > .container > p { font-size: 14px; }
   .service-local-content h2 { font-size: 24px; }
-  .privacy-policy { padding-top: 155px; }
+  .privacy-policy,
+  .terms-and-conditions { padding-top: 105px; }
 }
