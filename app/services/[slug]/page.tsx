@@ -16,13 +16,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: ServicePageProps): Promise<Metadata> {
   const { slug } = await params;
   const service = services.find((item) => item.slug === slug);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.decor-plants.com";
 
   return {
     title: service?.seoTitle ?? "Garden Services in Pune | Decor-Plants",
     description: service?.seoDescription,
     keywords: service ? [...service.keywords] : undefined,
     alternates:
-      service && process.env.NEXT_PUBLIC_SITE_URL
+      service
         ? { canonical: `/services/${service.slug}` }
         : undefined,
     openGraph: service
@@ -30,6 +31,23 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
           title: service.seoTitle,
           description: service.seoDescription,
           type: "website",
+          url: `${siteUrl}/services/${service.slug}`,
+          images: [
+            {
+              url: service.image,
+              width: 1200,
+              height: 630,
+              alt: `${service.title} in Pune by Decor-Plants`,
+            },
+          ],
+        }
+      : undefined,
+    twitter: service
+      ? {
+          card: "summary_large_image",
+          title: service.seoTitle,
+          description: service.seoDescription,
+          images: [service.image],
         }
       : undefined,
   };
@@ -52,12 +70,24 @@ export default async function ServicePage({ params }: ServicePageProps) {
       name: service.seoHeading,
       serviceType: service.title,
       description: service.seoDescription,
+      url: `https://www.decor-plants.com/services/${service.slug}`,
       areaServed: {
         "@type": "City",
         name: "Pune",
         containedInPlace: { "@type": "State", name: "Maharashtra" },
       },
-      provider: { "@type": "Organization", name: "Decor-Plants" },
+      provider: {
+        "@type": "LocalBusiness",
+        name: "Decor-Plants",
+        url: "https://www.decor-plants.com",
+        telephone: "+91-8788159687",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Pune",
+          addressRegion: "Maharashtra",
+          addressCountry: "IN",
+        },
+      },
     },
     {
       "@context": "https://schema.org",
@@ -67,6 +97,30 @@ export default async function ServicePage({ params }: ServicePageProps) {
         name: faq.question,
         acceptedAnswer: { "@type": "Answer", text: faq.answer },
       })),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.decor-plants.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Services",
+          item: "https://www.decor-plants.com/#services",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: service.title,
+          item: `https://www.decor-plants.com/services/${service.slug}`,
+        },
+      ],
     },
   ];
 
