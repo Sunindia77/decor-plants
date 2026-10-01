@@ -2,9 +2,11 @@
 
 import { FormEvent, useState } from "react";
 import Image from "next/image";
+import siteContent from "@/src/content/siteContent.json";
 
 export default function QuoteForm() {
   const [submitted, setSubmitted] = useState(false);
+  const { quoteForm, site } = siteContent;
 
   // ── Input sanitization ──────────────────────────────────────────────────────
   // Remove individual characters (<, >, ', ", `, ;) that enable script/tag injection.
@@ -73,8 +75,7 @@ ${message}
 Please contact me regarding this project.
     `.trim();
 
-    // Replace this number with your actual WhatsApp number.
-    const whatsappNumber = "+919780371983"; // Example: +919876543210
+    const whatsappNumber = site.whatsappNumber;
 
     const whatsappURL =
       `https://wa.me/${whatsappNumber}?text=` +
@@ -99,43 +100,24 @@ Please contact me regarding this project.
           <div className="quote-content">
 
             <span className="section-label">
-              START YOUR PROJECT
+              {quoteForm.eyebrow}
             </span>
 
             <h2>
-              Let&apos;s create
-              <br />
-              something green.
+              {quoteForm.title}
             </h2>
 
             <p>
-              Tell us about your space and get a personalized
-              consultation and estimate from our experts.
+              {quoteForm.description}
             </p>
 
-
             <div className="quote-points">
-
-              <div>
-                <i className="bi bi-check-circle-fill"></i>
-                <span>Free consultation</span>
-              </div>
-
-              <div>
-                <i className="bi bi-check-circle-fill"></i>
-                <span>Personalized design plan</span>
-              </div>
-
-              <div>
-                <i className="bi bi-check-circle-fill"></i>
-                <span>Transparent pricing</span>
-              </div>
-
-              <div>
-                <i className="bi bi-check-circle-fill"></i>
-                <span>Expert guidance</span>
-              </div>
-
+              {quoteForm.benefits.map((benefit, index) => (
+                <div key={index}>
+                  <i className="bi bi-check-circle-fill"></i>
+                  <span>{benefit}</span>
+                </div>
+              ))}
             </div>
 
           </div>
@@ -154,13 +136,11 @@ Please contact me regarding this project.
                 </div>
 
                 <h3>
-                  Enquiry Ready! 🌿
+                  {quoteForm.successMessage.title}
                 </h3>
 
                 <p>
-                  WhatsApp should have opened with your
-                  enquiry details. Send the message to
-                  complete your enquiry.
+                  {quoteForm.successMessage.description}
                 </p>
 
               </div>
@@ -175,14 +155,14 @@ Please contact me regarding this project.
                 <div className="form-group">
 
                   <label htmlFor="name">
-                    Full Name *
+                    {quoteForm.fields.name.label}
                   </label>
 
                   <input
                     id="name"
                     name="name"
                     type="text"
-                    placeholder="Your name"
+                    placeholder={quoteForm.fields.name.placeholder}
                     maxLength={100}
                     autoComplete="name"
                     required
@@ -194,14 +174,14 @@ Please contact me regarding this project.
                 <div className="form-group">
 
                   <label htmlFor="phone">
-                    Phone Number *
+                    {quoteForm.fields.phone.label}
                   </label>
 
                   <input
                     id="phone"
                     name="phone"
                     type="tel"
-                    placeholder="+91 XXXXX XXXXX"
+                    placeholder={quoteForm.fields.phone.placeholder}
                     pattern="[+\d\s\-().]{7,20}"
                     maxLength={20}
                     autoComplete="tel"
@@ -218,14 +198,14 @@ Please contact me regarding this project.
                 <div className="form-group">
 
                   <label htmlFor="email">
-                    Email Address
+                    {quoteForm.fields.email.label}
                   </label>
 
                   <input
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="you@example.com"
+                    placeholder={quoteForm.fields.email.placeholder}
                     maxLength={150}
                     autoComplete="email"
                   />
@@ -236,15 +216,14 @@ Please contact me regarding this project.
                 <div className="form-group">
 
                   <label htmlFor="propertyType">
-                    Property Type
+                    {quoteForm.fields.propertyType.label}
                   </label>
 
                   <select id="propertyType" name="propertyType" defaultValue="">
-                    <option value="" disabled>Select property type</option>
-                    <option>Home</option>
-                    <option>Apartment</option>
-                    <option>Office</option>
-                    <option>Commercial</option>
+                    <option value="" disabled>{quoteForm.fields.propertyType.placeholder}</option>
+                    {quoteForm.fields.propertyType.options.map((opt) => (
+                      <option key={opt}>{opt}</option>
+                    ))}
                   </select>
 
                 </div>
@@ -257,10 +236,10 @@ Please contact me regarding this project.
                 <div className="form-group">
 
                   <label htmlFor="city">
-                    City *
+                    {quoteForm.fields.city.label}
                   </label>
 
-                  <input id="city" name="city" type="text" placeholder="Pune" maxLength={100} autoComplete="address-level2" required />
+                  <input id="city" name="city" type="text" placeholder={quoteForm.fields.city.placeholder} maxLength={100} autoComplete="address-level2" required />
 
                 </div>
 
@@ -268,14 +247,14 @@ Please contact me regarding this project.
                 <div className="form-group">
 
                   <label htmlFor="area">
-                    Area (sq.ft)
+                    {quoteForm.fields.area.label}
                   </label>
 
                   <input
                     id="area"
                     name="area"
                     type="text"
-                    placeholder="e.g. 500 sq.ft"
+                    placeholder={quoteForm.fields.area.placeholder}
                     maxLength={50}
                     pattern="[\d\s.a-zA-Z]{0,50}"
                   />
@@ -286,30 +265,25 @@ Please contact me regarding this project.
 
 
               <div className="form-group quote-service-field">
-                <label htmlFor="service">Service Interested In</label>
+                <label htmlFor="service">{quoteForm.fields.service.label}</label>
                 <select id="service" name="service" required defaultValue="">
-                  <option value="" disabled>Select a service</option>
-                  <option>Garden Design</option>
-                  <option>Balcony Garden</option>
-                  <option>Terrace Garden</option>
-                  <option>Vertical Garden</option>
-                  <option>Plant Rental</option>
-                  <option>Garden Maintenance</option>
-                  <option>Office Plantscaping</option>
-                  <option>Other</option>
+                  <option value="" disabled>{quoteForm.fields.service.placeholder}</option>
+                  {quoteForm.fields.service.options.map((srv) => (
+                    <option key={srv}>{srv}</option>
+                  ))}
                 </select>
               </div>
 
 
               <div className="form-group">
 
-                  <label htmlFor="message">Additional Details</label>
+                <label htmlFor="message">{quoteForm.fields.message.label}</label>
 
                 <textarea
                   id="message"
                   name="message"
                   rows={4}
-                  placeholder="Tell us about your space and requirements..."
+                  placeholder={quoteForm.fields.message.placeholder}
                   maxLength={500}
                 ></textarea>
 
@@ -321,7 +295,7 @@ Please contact me regarding this project.
                 className="quote-submit"
               >
 
-                Get My Free Quote
+                {quoteForm.submitButton}
 
                 <i className="bi bi-arrow-up-right"></i>
 
@@ -330,28 +304,28 @@ Please contact me regarding this project.
 
               <p className="form-note">
                 <i className="bi bi-whatsapp"></i>
-                Your enquiry will open in WhatsApp.
+                {quoteForm.formNote}
               </p>
 
             </form>
 
             <div className="quote-whatsapp-qr">
-              <h3>Prefer WhatsApp?</h3>
-              <p>Scan to chat with Decor-Plants</p>
+              <h3>{quoteForm.whatsappQr.title}</h3>
+              <p>{quoteForm.whatsappQr.subtitle}</p>
               <Image
                 src="/images/garden/WhatsApp%20BarCode%20Account2020.png"
                 width={1278}
                 height={1230}
                 alt="Decor-Plants WhatsApp Business QR Code"
               />
-              <p>Scan to start a WhatsApp conversation</p>
+              <p>{quoteForm.whatsappQr.footer}</p>
             </div>
 
           </div>
 
         <aside className="quote-aside" aria-label="A note about your garden">
           <span>✦</span>
-          <p>&ldquo;Let&apos;s turn<br />your space<br />into a green<br />escape.&rdquo;</p>
+          <p>&ldquo;{quoteForm.asideQuote.line1}<br />{quoteForm.asideQuote.line2}<br />{quoteForm.asideQuote.line3}<br />{quoteForm.asideQuote.line4}&rdquo;</p>
         </aside>
 
         </div>
