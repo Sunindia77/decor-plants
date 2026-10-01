@@ -7,11 +7,11 @@ export default function QuoteForm() {
   const [submitted, setSubmitted] = useState(false);
 
   // ── Input sanitization ──────────────────────────────────────────────────────
-  // Strip HTML/script tags and limit length to prevent XSS injection
+  // Remove individual characters (<, >, ', ", `, ;) that enable script/tag injection.
+  // Using character-level sanitization avoids incomplete multi-character bypasses (CodeQL).
   const sanitize = (value: string, maxLen = 200): string =>
     value
-      .replace(/<[^>]*>/g, "")          // strip HTML tags
-      .replace(/[<>'"`;]/g, "")         // strip dangerous characters
+      .replace(/[<>'"`;]/g, "")
       .trim()
       .slice(0, maxLen);
 
