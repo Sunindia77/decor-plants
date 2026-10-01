@@ -3,9 +3,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import siteContent from "@/src/content/siteContent.json";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { header, site } = siteContent;
 
   return (
     <header className="site-header">
@@ -20,7 +22,7 @@ export default function Header() {
               width={2048}
               height={768}
               priority
-              alt="Decor-Plants, transform your space into a living experience"
+              alt={`${site.name}, ${site.tagline}`}
             />
           </Link>
 
@@ -36,41 +38,17 @@ export default function Header() {
           {/* Navigation */}
           <div className={`navbar-collapse ${menuOpen ? "show" : ""}`}>
             <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
-
-              <li className="nav-item">
-                <Link className="nav-link" href="/#home">
-                  Home
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link className="nav-link" href="/#services">
-                  Services
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link className="nav-link" href="/#projects">
-                  Projects
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link className="nav-link" href="/#spaces">
-                  Plant Guide
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link className="nav-link" href="/#contact">
-                  Contact
-                </Link>
-              </li>
-
+              {header.nav.map((item) => (
+                <li className="nav-item" key={item.label}>
+                  <Link className="nav-link" href={item.href}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
 
             <Link href="/#contact" className="btn quote-btn">
-              Book a Site Visit <i className="bi bi-arrow-up-right" aria-hidden="true"></i>
+              {header.ctaButton} <i className="bi bi-arrow-up-right" aria-hidden="true"></i>
             </Link>
           </div>
 

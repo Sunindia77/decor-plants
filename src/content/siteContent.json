@@ -1,0 +1,558 @@
+{
+  "site": {
+    "name": "Decor-Plants",
+    "tagline": "Transform your space into a living experience",
+    "location": "Pune, Maharashtra",
+    "phone": "+91-8788159687",
+    "phoneDisplay": "+91-8788159687",
+    "whatsappNumber": "+919780371983",
+    "coFounder": "Suraj Satav",
+    "copyright": "© 2026 Decor-Plants. All rights reserved.",
+    "socialLinks": {
+      "instagram": "https://www.instagram.com/decorplants_/",
+      "facebook": "https://www.facebook.com/DecorPlants7/",
+      "linkedin": "https://www.linkedin.com/company/decorplants/"
+    }
+  },
+  "header": {
+    "nav": [
+      { "label": "Home", "href": "/#home" },
+      { "label": "Services", "href": "/#services" },
+      { "label": "Projects", "href": "/#projects" },
+      { "label": "Plant Guide", "href": "/#spaces" },
+      { "label": "Contact", "href": "/#contact" }
+    ],
+    "ctaButton": "Book a Site Visit"
+  },
+  "hero": {
+    "eyebrow": "PLANT & GARDEN CARE STUDIO",
+    "titleLine1": "Transform Your Space",
+    "titleLine2": " Into A ",
+    "titleHighlight": "Living Experience.",
+    "description": "Garden maintenance services in Pune for homes and workspaces. Our gardening services include plant maintenance, balcony and terrace gardens, and thoughtful landscaping.",
+    "primaryCta": "Get Free Quote",
+    "secondaryCta": "Watch Our Story",
+    "stats": [
+      { "number": "500+", "label": "Happy Clients" },
+      { "number": "150+", "label": "Projects Completed" },
+      { "number": "100+", "label": "Plant Varieties" }
+    ],
+    "note": "Thoughtful\ngreen living",
+    "qrFeature": {
+      "title": "Prefer WhatsApp?",
+      "subtitle": "Scan to chat with Decor-Plants"
+    }
+  },
+  "spaces": {
+    "eyebrow": "START YOUR GREEN JOURNEY",
+    "title": "What would you like to transform?",
+    "items": [
+      {
+        "title": "Home Garden",
+        "description": "Create a natural retreat at home.",
+        "image": "/images/garden/modern-garden-home.png"
+      },
+      {
+        "title": "Balcony",
+        "description": "Bring living into small spaces.",
+        "image": "/images/garden/pergola-garden-lounge.png"
+      },
+      {
+        "title": "Terrace",
+        "description": "Turn your terrace into an urban escape.",
+        "image": "/images/garden/Luxury%20Terrace%20Garden.png"
+      },
+      {
+        "title": "Office",
+        "description": "Bring nature to your workspace.",
+        "image": "/images/garden/indoor-tropical-garden.png"
+      },
+      {
+        "title": "Vertical Wall",
+        "description": "Green walls with modern design.",
+        "image": "/images/garden/indoor-garden-lounge.png"
+      },
+      {
+        "title": "Indoor Plants",
+        "description": "Beautiful plants for healthier interiors.",
+        "image": "/images/garden/garden-courtyard-bougainvillea.png"
+      }
+    ]
+  },
+  "servicesSection": {
+    "eyebrow": "OUR SERVICES",
+    "title": "Complete Garden & Landscaping Solutions",
+    "description": "From concept to creation, we provide end-to-end green solutions for every space.",
+    "ctaText": "View All Services"
+  },
+  "projectsSection": {
+    "eyebrow": "OUR RECENT WORK",
+    "title": "Spaces we've transformed.",
+    "description": "From peaceful balconies to impressive commercial landscapes, explore some of the spaces we've brought to life.",
+    "ctaText": "View All Projects",
+    "items": [
+      {
+        "category": "RESIDENTIAL",
+        "title": "Luxury Terrace Garden",
+        "location": "Pune, Maharashtra",
+        "image": "/images/garden/Luxury%20Terrace%20Garden.png",
+        "large": true,
+        "priority": true
+      },
+      {
+        "category": "BALCONY",
+        "title": "Urban Balcony",
+        "location": "Pune, Maharashtra",
+        "image": "/images/garden/Urban%20Balcony.png",
+        "large": false,
+        "priority": false
+      },
+      {
+        "category": "COMMERCIAL",
+        "title": "Corporate Green Space",
+        "location": "Hinjewadi, Pune",
+        "image": "/images/garden/Corporate%20Green%20Space.png",
+        "large": false,
+        "priority": false
+      },
+      {
+        "category": "LANDSCAPING",
+        "title": "Contemporary Garden",
+        "location": "Pune, Maharashtra",
+        "image": "/images/garden/Contemporary%20Garden.png",
+        "large": true,
+        "priority": false
+      }
+    ]
+  },
+  "beforeAfter": {
+    "eyebrow": "SEE THE TRANSFORMATION",
+    "title": "From ordinary to extraordinary.",
+    "description": "Every space has potential. See how we transform empty and unused spaces into beautiful green environments.",
+    "beforeLabel": "BEFORE",
+    "afterLabel": "AFTER",
+    "beforeImage": "/images/garden/Before.png",
+    "afterImage": "/images/garden/after.png",
+    "featuredProject": {
+      "eyebrow": "FEATURED TRANSFORMATION",
+      "title": "Terrace Garden Transformation",
+      "metrics": [
+        { "label": "Area", "value": "350 sq.ft", "icon": "bi-rulers" },
+        { "label": "Project type", "value": "Residential", "icon": "bi-house-heart" },
+        { "label": "Plants used", "value": "25+ varieties", "icon": "bi-flower1" }
+      ],
+      "linkText": "View Project Details",
+      "linkHref": "#contact"
+    }
+  },
+  "whyChooseUs": {
+    "eyebrow": "REAL REASONS TO CHOOSE US",
+    "title": "More than a garden. A complete experience.",
+    "intro": "We combine design, nature and expert care to create green spaces that look beautiful and feel even better.",
+    "benefits": [
+      {
+        "number": "01",
+        "title": "Expert Design & Planning",
+        "description": "Personalized designs for every space and lifestyle.",
+        "icon": "bi-palette"
+      },
+      {
+        "number": "02",
+        "title": "High-Quality Plants",
+        "description": "A wide range of healthy indoor and outdoor plants.",
+        "icon": "bi-check2-circle"
+      },
+      {
+        "number": "03",
+        "title": "Sustainable Solutions",
+        "description": "Eco-friendly and low-maintenance options.",
+        "icon": "bi-flower1"
+      },
+      {
+        "number": "04",
+        "title": "Transparent Pricing",
+        "description": "Clear estimates with no hidden costs.",
+        "icon": "bi-tools"
+      },
+      {
+        "number": "05",
+        "title": "Long-Term Garden Care",
+        "description": "Ongoing maintenance for lasting beauty.",
+        "icon": "bi-receipt"
+      },
+      {
+        "number": "06",
+        "title": "Trusted by 500+ Clients",
+        "description": "A proven track record and happy customers.",
+        "icon": "bi-heart"
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "HOW IT WORKS",
+    "title": "From idea to beautiful garden.",
+    "description": "A simple and transparent process to bring your green vision to life.",
+    "linkText": "Our Process",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Consultation",
+        "description": "Share your space and requirements."
+      },
+      {
+        "number": "02",
+        "title": "Design",
+        "description": "Get a personalized design and estimate."
+      },
+      {
+        "number": "03",
+        "title": "Installation",
+        "description": "Our team brings your garden to life."
+      },
+      {
+        "number": "04",
+        "title": "Maintenance",
+        "description": "We keep it green and thriving."
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "WHAT OUR CLIENTS SAY",
+    "title": "Spaces they love. Stories they share.",
+    "items": [
+      {
+        "review": "The entire experience was excellent. They transformed our empty balcony into a beautiful green space that our family absolutely loves.",
+        "name": "Rahul Mehta",
+        "location": "Baner, Pune",
+        "service": "Balcony Garden",
+        "rating": 5
+      },
+      {
+        "review": "Very professional team from design to installation. They understood exactly what we wanted for our terrace and delivered beautifully.",
+        "name": "Sneha Kulkarni",
+        "location": "Wakad, Pune",
+        "service": "Terrace Garden",
+        "rating": 5
+      },
+      {
+        "review": "We wanted greenery for our office reception and the result looks fantastic. The maintenance service has also been very reliable.",
+        "name": "Amit Shah",
+        "location": "Hinjewadi, Pune",
+        "service": "Office Plantscaping",
+        "rating": 5
+      }
+    ]
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Everything you need to know.",
+    "description": "Quick answers to common questions about our services.",
+    "linkText": "View All FAQs",
+    "items": [
+      {
+        "question": "How much does a garden design cost?",
+        "answer": "The cost depends on the space size, type of garden, plants, planters, materials and level of customization. You can use our Garden Cost Calculator for an initial estimate, or request a free consultation for an accurate quotation."
+      },
+      {
+        "question": "Do you provide maintenance services?",
+        "answer": "Yes. We offer regular maintenance visits and annual plans tailored to your garden, including pruning, plant health checks and seasonal care."
+      },
+      {
+        "question": "What types of plants do you use?",
+        "answer": "We select plants to suit your space, local climate, light levels and care preferences, with native and water-wise options where appropriate."
+      },
+      {
+        "question": "How long does installation take?",
+        "answer": "Timing depends on the size and complexity of your project. We provide a clear schedule after assessing the space and finalizing the design."
+      },
+      {
+        "question": "Can you work with small spaces?",
+        "answer": "Absolutely. We design for compact balconies, patios and corners with space-smart layouts, vertical planting and carefully chosen containers."
+      },
+      {
+        "question": "Do you provide a free consultation?",
+        "answer": "Yes. We offer a free initial consultation to understand your space, goals and budget before recommending the next steps."
+      }
+    ]
+  },
+  "quoteForm": {
+    "eyebrow": "START YOUR PROJECT",
+    "title": "Let's create something green.",
+    "description": "Tell us about your space and get a personalized consultation and estimate from our experts.",
+    "benefits": [
+      "Free consultation",
+      "Personalized design plan",
+      "Transparent pricing",
+      "Expert guidance"
+    ],
+    "successMessage": {
+      "title": "Enquiry Ready! 🌿",
+      "description": "WhatsApp should have opened with your enquiry details. Send the message to complete your enquiry."
+    },
+    "fields": {
+      "name": {
+        "label": "Full Name *",
+        "placeholder": "Your name"
+      },
+      "phone": {
+        "label": "Phone Number *",
+        "placeholder": "+91 XXXXX XXXXX"
+      },
+      "email": {
+        "label": "Email Address",
+        "placeholder": "you@example.com"
+      },
+      "propertyType": {
+        "label": "Property Type",
+        "placeholder": "Select property type",
+        "options": ["Home", "Apartment", "Office", "Commercial"]
+      },
+      "city": {
+        "label": "City *",
+        "placeholder": "Pune"
+      },
+      "area": {
+        "label": "Area (sq.ft)",
+        "placeholder": "e.g. 500 sq.ft"
+      },
+      "service": {
+        "label": "Service Interested In",
+        "placeholder": "Select a service",
+        "options": [
+          "Garden Design",
+          "Balcony Garden",
+          "Terrace Garden",
+          "Vertical Garden",
+          "Plant Rental",
+          "Garden Maintenance",
+          "Office Plantscaping",
+          "Other"
+        ]
+      },
+      "message": {
+        "label": "Additional Details",
+        "placeholder": "Tell us about your space and requirements..."
+      }
+    },
+    "submitButton": "Get My Free Quote",
+    "formNote": "Your enquiry will open in WhatsApp.",
+    "whatsappQr": {
+      "title": "Prefer WhatsApp?",
+      "subtitle": "Scan to chat with Decor-Plants",
+      "footer": "Scan to start a WhatsApp conversation"
+    },
+    "asideQuote": {
+      "line1": "Let's turn",
+      "line2": "your space",
+      "line3": "into a green",
+      "line4": "escape."
+    }
+  },
+  "cta": {
+    "title": "Ready to transform your space?",
+    "description": "Get a free consultation and let's create something beautiful together.",
+    "buttonText": "Book a Free Consultation",
+    "buttonHref": "#quote"
+  },
+  "footer": {
+    "description": "Creating beautiful green spaces for healthier, happier lives.",
+    "founderLabel": "Co-Founder",
+    "phoneLabel": "Phone",
+    "copyright": "© 2026 Decor-Plants. All rights reserved.",
+    "links": [
+      { "label": "Home", "href": "#home" },
+      { "label": "Services", "href": "#services" },
+      { "label": "Projects", "href": "#projects" },
+      { "label": "Plant Guide", "href": "#spaces" },
+      { "label": "Contact", "href": "#contact" }
+    ],
+    "legalLinks": [
+      { "label": "Privacy Policy", "href": "/privacy-policy" },
+      { "label": "Terms & Conditions", "href": "/terms-and-conditions" }
+    ]
+  },
+  "privacyPolicy": {
+    "sectionLabel": "LEGAL INFORMATION",
+    "title": "Privacy Policy",
+    "lastUpdated": "Updated: 2026",
+    "intro": "This policy explains how Decor-Plants handles information when you visit this website or contact us about garden, plant-care, and landscaping services in Pune.",
+    "sections": [
+      {
+        "heading": "Information you provide",
+        "paragraphs": [
+          "If you complete the enquiry form, it may include your name, phone number, email address, property type, city, approximate area, requested service, and any message you enter. The email field is optional. Please avoid including sensitive personal information in your enquiry."
+        ]
+      },
+      {
+        "heading": "How the enquiry form works",
+        "paragraphs": [
+          "When you submit the form, this website creates a pre-filled message and opens WhatsApp. The details are included in the WhatsApp link; you can review them and choose whether to send the message. The website does not send the message automatically or store enquiry submissions in its own database.",
+          "Scanning the WhatsApp QR code opens the Decor-Plants WhatsApp contact. Scanning it alone does not send your details; information is shared when you choose to message us through WhatsApp."
+        ]
+      },
+      {
+        "heading": "How we use enquiry information",
+        "paragraphs": [
+          "If you send us a WhatsApp message, we use the information you choose to provide to respond to your enquiry, discuss your project, prepare a quotation, and arrange follow-up about the requested service."
+        ]
+      },
+      {
+        "heading": "WhatsApp and other providers",
+        "paragraphs": [
+          "WhatsApp is operated by Meta. When you open WhatsApp or send us a message, WhatsApp processes information under its own terms and privacy policy.",
+          "This website loads fonts from Google Fonts. Our hosting provider may process routine technical request information, such as IP address, browser details, and request time, to deliver and protect the website. Those providers handle information under their own policies."
+        ],
+        "links": [
+          {
+            "text": "WhatsApp Privacy Policy",
+            "href": "https://www.whatsapp.com/legal/privacy-policy"
+          }
+        ]
+      },
+      {
+        "heading": "Cookies and analytics",
+        "paragraphs": [
+          "The current website code does not configure advertising or analytics tracking or save enquiry form data in cookies or browser storage. Your browser, hosting provider, or third-party services may process technical information needed to operate their services."
+        ]
+      },
+      {
+        "heading": "Retention and your choices",
+        "paragraphs": [
+          "The website itself does not retain enquiry submissions. If you send us a WhatsApp message, the message may remain in your and our WhatsApp chat history. You can choose not to submit the form or send a message. WhatsApp controls its own records and retention."
+        ]
+      },
+      {
+        "heading": "Security",
+        "paragraphs": [
+          "The form hands off information to WhatsApp rather than storing it on this website. No method of internet transmission or electronic storage is completely risk-free, so share only details needed for your enquiry."
+        ]
+      },
+      {
+        "heading": "Changes and contact",
+        "paragraphs": [
+          "We may update this policy when our website or enquiry process changes. The date above indicates when it was last updated."
+        ]
+      }
+    ]
+  },
+  "termsAndConditions": {
+    "sectionLabel": "LEGAL INFORMATION",
+    "title": "Terms & Conditions",
+    "lastUpdated": "Updated: 2026",
+    "introParagraphs": [
+      "Welcome to Decor-Plants. These Terms and Conditions (\"Terms\") govern your access to and use of our website, as well as the garden maintenance, landscaping, balcony and terrace garden design, and plant-care services provided by Decor-Plants in Pune, Maharashtra.",
+      "By accessing our website, submitting an enquiry, or booking our services, you acknowledge that you have read, understood, and agreed to be bound by these Terms. If you do not agree, please do not use our website or engage our services."
+    ],
+    "sections": [
+      {
+        "heading": "1. Services & Scope of Work",
+        "intro": "Decor-Plants provides residential and commercial gardening services, including but not limited to:",
+        "list": [
+          "Routine garden and lawn maintenance",
+          "Balcony and terrace garden design and setup",
+          "Indoor and outdoor plant care and procurement",
+          "Vertical green wall installations",
+          "Pruning, trimming, and shaping",
+          "Soil conditioning, fertilization, and organic pest management",
+          "Garden rejuvenation and soft landscaping"
+        ],
+        "footer": "The specific scope of work, deliverables, schedules, and costs for any project will be outlined in a formal quotation, project estimate, or service agreement provided to the client."
+      },
+      {
+        "heading": "2. Consultations, Site Visits & Quotations",
+        "paragraphs": [
+          "Initial estimates provided online or through WhatsApp are approximate and based solely on information and photos provided by the client. An on-site inspection may be required to evaluate sunlight exposure, drainage, site accessibility, and exact dimensions.",
+          "Written quotations are valid for 15 calendar days from the date of issuance unless otherwise stated. Any modifications to project scope, plant varieties, or materials requested by the client after approval may result in adjusted pricing and delivery timelines."
+        ]
+      },
+      {
+        "heading": "3. Client Responsibilities & Site Access",
+        "intro": "To ensure the timely and safe completion of work, the client agrees to:",
+        "list": [
+          "Provide safe and unobstructed access to the work area (gardens, balconies, terraces, courtyards, or office spaces) during agreed working hours.",
+          "Provide adequate water supply and electrical access necessary for plant care, irrigation, and installation equipment without charge.",
+          "Secure all required permissions, approvals, or No Objection Certificates (NOC) from housing society committees, building managements, or landlords regarding weight restrictions, drilling, or material movement.",
+          "Notify our team in advance of any concealed water pipes, electrical cables, fragile waterproof membranes, or hazardous site conditions."
+        ]
+      },
+      {
+        "heading": "4. Living Goods & Plant Care Disclaimer",
+        "paragraphs": [
+          "Plants, shrubs, turf, and trees are living biological organisms. Their health, growth, and survival depend significantly on ambient environmental factors such as adequate natural light, watering frequency, drainage, temperature, humidity, and ongoing care.",
+          "Decor-Plants guarantees that all plants supplied are healthy, viable, and free from pests and diseases at the time of delivery and installation.",
+          "Following handover, Decor-Plants cannot be held responsible for plant deterioration or loss caused by:"
+        ],
+        "list": [
+          "Over-watering, under-watering, or irregular watering by the client",
+          "Inadequate natural sunlight or extreme indoor air-conditioning",
+          "Severe weather events, including heavy monsoon waterlogging, hail, or heatwaves",
+          "Infestations, fungal disease, or pet and rodent damage",
+          "Use of unauthorized chemical fertilizers or pesticides"
+        ],
+        "footer": "Free plant replacement is not provided unless explicitly included as part of an active Decor-Plants Maintenance Agreement."
+      },
+      {
+        "heading": "5. Periodic Maintenance Contracts",
+        "paragraphs": [
+          "Clients subscribed to recurring maintenance packages (weekly, bi-weekly, or monthly) receive scheduled visits for weeding, soil aeration, pruning, nutrient application, and pest inspection.",
+          "If a scheduled visit cannot occur due to client unavailability or denied access, we will make reasonable efforts to reschedule within the same billing cycle. However, visits missed due to client fault are not eligible for fee deductions or refunds."
+        ]
+      },
+      {
+        "heading": "6. Pricing, Payments & Deposits",
+        "intro": "Prices for our services and products are quoted in Indian Rupees (INR).",
+        "list": [
+          "Custom Projects & Installations: An advance deposit (typically 50%) is required prior to plant procurement and site preparation. The remaining balance is due immediately upon project completion or according to agreed project milestones.",
+          "Ongoing Maintenance: Maintenance services are billed in advance on a monthly or quarterly cycle.",
+          "Payment Modes: We accept payments via UPI, bank transfer (NEFT/IMPS), and cash."
+        ],
+        "footer": "Decor-Plants reserves the right to pause ongoing maintenance visits or delay installation schedules if scheduled payments remain outstanding."
+      },
+      {
+        "heading": "7. Rescheduling & Weather Disruptions",
+        "paragraphs": [
+          "Clients may reschedule a service visit by notifying us at least 24 hours prior to the appointment.",
+          "For outdoor projects and terrace gardens, Decor-Plants reserves the right to postpone scheduled work in case of adverse weather conditions (such as torrential rainfall, thunderstorms, or extreme heat) to protect personnel safety and plant integrity. Rescheduled dates will be coordinated with the client promptly."
+        ]
+      },
+      {
+        "heading": "8. Limitation of Liability",
+        "intro": "While our team exercises utmost care and professionalism on site, Decor-Plants shall not be held liable for:",
+        "list": [
+          "Pre-existing civil defects, roof seepage, or structural weaknesses not caused by our installation.",
+          "Damage to concealed plumbing or electrical lines that were not disclosed to our team in advance.",
+          "Indirect, incidental, or consequential damages resulting from service delays due to weather, transport delays, or supply chain shortages."
+        ],
+        "footer": "To the maximum extent permitted by applicable Indian law, Decor-Plants' total aggregate liability for any claim arising out of our services shall not exceed the total fees paid by the client for the specific service or project in dispute."
+      },
+      {
+        "heading": "9. Intellectual Property",
+        "paragraphs": [
+          "All content on this website—including photographs, logo, branding, text, graphics, design layouts, and project showcases—is the property of Decor-Plants and protected by applicable copyright and intellectual property laws. You may not copy, reproduce, distribute, or publish any content from this site without our prior written consent."
+        ]
+      },
+      {
+        "heading": "10. Third-Party Services & WhatsApp",
+        "paragraphs": [
+          "Our website utilizes WhatsApp (Meta) to facilitate direct communication and quote requests. When communicating via WhatsApp, you are subject to Meta's Terms of Service and Privacy Policy."
+        ]
+      },
+      {
+        "heading": "11. Governing Law & Jurisdiction",
+        "paragraphs": [
+          "These Terms and any disputes arising out of or related to our services shall be governed by and construed in accordance with the laws of India. The courts of Pune, Maharashtra shall have exclusive jurisdiction over any disputes or legal proceedings."
+        ]
+      },
+      {
+        "heading": "12. Changes to These Terms",
+        "paragraphs": [
+          "Decor-Plants reserves the right to revise these Terms & Conditions at any time. Changes will be posted to this page with an updated \"Last updated\" date. Continued use of our website or services following any changes indicates your acceptance of the revised terms."
+        ]
+      },
+      {
+        "heading": "13. Contact Information",
+        "intro": "If you have any questions or require clarification regarding these Terms and Conditions, please contact us:"
+      }
+    ]
+  }
+}

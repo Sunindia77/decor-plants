@@ -2,8 +2,10 @@
 
 import { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
+import siteContent from "@/src/content/siteContent.json";
 
 export default function BeforeAfter() {
+  const { beforeAfter } = siteContent;
   // Refs for the two elements whose position changes on every drag event.
   // We write to element.style directly (DOM API) rather than via JSX style={{}}
   // because inline HTML style="" attributes are blocked by CSP style-src-attr,
@@ -34,7 +36,7 @@ export default function BeforeAfter() {
 
           <div>
             <span className="section-label">
-              SEE THE TRANSFORMATION
+              {beforeAfter.eyebrow}
             </span>
 
             <h2>
@@ -45,9 +47,7 @@ export default function BeforeAfter() {
           </div>
 
           <p>
-            Every space has potential. See how we transform
-            empty and unused spaces into beautiful green
-            environments.
+            {beforeAfter.description}
           </p>
 
         </div>
@@ -70,7 +70,7 @@ export default function BeforeAfter() {
             />
 
             <span className="comparison-label after-label">
-              AFTER
+              {beforeAfter.afterLabel}
             </span>
 
           </div>
@@ -89,7 +89,7 @@ export default function BeforeAfter() {
             />
 
             <span className="comparison-label before-label">
-              BEFORE
+              {beforeAfter.beforeLabel}
             </span>
 
           </div>
@@ -119,15 +119,18 @@ export default function BeforeAfter() {
 
         </div>
         <aside className="comparison-project">
-          <span className="section-label">FEATURED TRANSFORMATION</span>
-          <h3>Terrace Garden Transformation</h3>
+          <span className="section-label">{beforeAfter.featuredProject.eyebrow}</span>
+          <h3>{beforeAfter.featuredProject.title}</h3>
           <div className="comparison-metrics">
-            <div><i className="bi bi-rulers" aria-hidden="true"></i><span>Area<strong>350 sq.ft</strong></span></div>
-            <div><i className="bi bi-house-heart" aria-hidden="true"></i><span>Project type<strong>Residential</strong></span></div>
-            <div><i className="bi bi-flower1" aria-hidden="true"></i><span>Plants used<strong>25+ varieties</strong></span></div>
+            {beforeAfter.featuredProject.metrics.map((metric, idx) => (
+              <div key={idx}>
+                <i className={`bi ${metric.icon}`} aria-hidden="true"></i>
+                <span>{metric.label}<strong>{metric.value}</strong></span>
+              </div>
+            ))}
           </div>
-          <a href="#contact">
-            View Project Details <i className="bi bi-arrow-up-right" aria-hidden="true"></i>
+          <a href={beforeAfter.featuredProject.linkHref}>
+            {beforeAfter.featuredProject.linkText} <i className="bi bi-arrow-up-right" aria-hidden="true"></i>
           </a>
         </aside>
         </div>
