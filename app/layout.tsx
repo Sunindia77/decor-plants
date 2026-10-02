@@ -10,16 +10,11 @@ export const metadata: Metadata = {
 
   // ── Brand & default title ──────────────────────────────────────────────────
   title: {
-    default: "Garden Maintenance Services in Pune | Decor-Plants",
+    default: "Decor-Plants | Garden & Plant Care Services in Pune",
     template: "%s | Decor-Plants",
   },
   description:
     "Decor-Plants offers professional garden maintenance, balcony gardens, terrace gardens, vertical green walls and office plant care in Pune, Maharashtra. Call +91-8788159687 for a free site visit.",
-
-  // ── Publisher / Author ────────────────────────────────────────────────────
-  authors: [{ name: "Decor-Plants", url: SITE_URL }],
-  publisher: "Decor-Plants",
-  creator: "Decor-Plants",
 
   // ── Icons ─────────────────────────────────────────────────────────────────
   icons: {
@@ -29,9 +24,9 @@ export const metadata: Metadata = {
 
   // ── Search keywords (supplementary signal) ────────────────────────────────
   keywords: [
-    "garden maintenance services Pune",
+    "garden maintenance Pune",
     "gardening services Pune",
-    "plant maintenance services Pune",
+    "plant care Pune",
     "balcony garden Pune",
     "terrace garden Pune",
     "vertical garden Pune",
@@ -48,7 +43,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     siteName: "Decor-Plants",
-    title: "Garden Maintenance Services in Pune | Decor-Plants",
+    title: "Decor-Plants | Garden & Plant Care Services in Pune",
     description:
       "Professional garden maintenance, balcony, terrace & vertical gardens, and office plant care in Pune. 500+ happy clients. Free site visit.",
     url: SITE_URL,
@@ -65,9 +60,7 @@ export const metadata: Metadata = {
   // ── Twitter / X card ──────────────────────────────────────────────────────
   twitter: {
     card: "summary_large_image",
-    site: "@decorplants_",
-    creator: "@decorplants_",
-    title: "Garden Maintenance Services in Pune | Decor-Plants",
+    title: "Decor-Plants | Garden & Plant Care Services in Pune",
     description:
       "Professional garden maintenance, balcony, terrace & vertical gardens in Pune. 500+ happy clients. Free site visit.",
     images: ["/images/garden/Luxury%20Terrace%20Garden.png"],
@@ -78,15 +71,13 @@ export const metadata: Metadata = {
     canonical: SITE_URL,
   },
 
-  // ── Crawling & robots ─────────────────────────────────────────────────────
+  // ── Crawling ──────────────────────────────────────────────────────────────
   robots: {
     index: true,
     follow: true,
-    nocache: false,
     googleBot: {
       index: true,
       follow: true,
-      noimageindex: false,
       "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,

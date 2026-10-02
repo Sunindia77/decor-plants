@@ -74,10 +74,6 @@ const nextConfig: NextConfig = {
           // Cross-Origin isolation prevents cross-origin attacks
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
           { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
-          // X-Robots-Tag: tells crawlers at the HTTP header level to index & follow
-          // This complements the <meta name="robots"> tag for audit tools that
-          // check headers rather than (or in addition to) the HTML meta tag.
-          { key: "X-Robots-Tag", value: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" },
         ],
       },
     ];
