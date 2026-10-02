@@ -25,20 +25,48 @@ const serviceIcons = [
 ];
 
 export const metadata: Metadata = {
-  title: "Garden Maintenance Services in Pune | Decor-Plants",
+  title: "Garden Maintenance Services in Pune | Decor-Plants – Free Site Visit",
   description:
-    "Garden maintenance services in Pune for homes and workspaces. Explore gardening services, plant maintenance, balcony and terrace gardens with Decor-Plants.",
+    "Decor-Plants provides garden maintenance, balcony gardens, terrace garden design, vertical green walls and office plant care across Pune. 500+ happy clients. Call +91-8788159687 for a FREE site visit.",
   keywords: [
     "garden maintenance services Pune",
     "gardening services Pune",
-    "plant maintenance services Pune",
+    "plant maintenance Pune",
+    "balcony garden Pune",
+    "terrace garden Pune",
+    "vertical garden Pune",
+    "landscaping Pune",
+    "office plant care Pune",
+    "indoor plants Pune",
+    "garden design Pune",
+    "Baner garden maintenance",
+    "Wakad gardening services",
+    "Hinjewadi office plants",
+    "garden care Pune",
+    "Decor Plants Pune",
   ],
-  alternates: process.env.NEXT_PUBLIC_SITE_URL ? { canonical: "/" } : undefined,
+  alternates: { canonical: "/" },
   openGraph: {
     title: "Garden Maintenance Services in Pune | Decor-Plants",
     description:
-      "Garden care, plant maintenance and thoughtful garden design for homes and workspaces in Pune.",
+      "Professional garden care for homes, balconies, terraces and offices in Pune. 500+ clients served. Free site visit available.",
     type: "website",
+    url: "/",
+    images: [
+      {
+        url: "/images/garden/Luxury%20Terrace%20Garden.png",
+        width: 1200,
+        height: 630,
+        alt: "Luxury Terrace Garden transformed by Decor-Plants, Pune",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Garden Maintenance Services in Pune | Decor-Plants",
+    description:
+      "Professional garden care for homes, balconies, terraces and offices in Pune. Free site visit.",
+    images: ["/images/garden/Luxury%20Terrace%20Garden.png"],
   },
 };
 
@@ -48,29 +76,153 @@ export default async function Home() {
 
   const localBusinessSchema = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: site.name,
+    "@type": "LocalBusiness",
+    "@id": "https://www.decor-plants.com/#business",
+    name: "Decor-Plants",
+    alternateName: "Decor Plants",
     description:
-      "Garden maintenance, gardening, plant care, landscaping and garden design services in Pune.",
-    areaServed: { "@type": "City", name: "Pune" },
+      "Garden maintenance, balcony gardens, terrace garden design, vertical green walls, indoor plants and office plant care services in Pune, Maharashtra.",
+    url: "https://www.decor-plants.com",
+    telephone: "+91-8788159687",
+    email: "info@decor-plants.com",
+    foundingDate: "2020",
+    priceRange: "₹₹",
+    image: "https://www.decor-plants.com/images/garden/logo-decor-plants.png",
+    logo: "https://www.decor-plants.com/images/garden/logo-decor-plants.png",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Pune",
+      addressRegion: "Maharashtra",
+      addressCountry: "IN",
+    },
+    areaServed: [
+      { "@type": "City", name: "Pune" },
+      { "@type": "Place", name: "Baner, Pune" },
+      { "@type": "Place", name: "Wakad, Pune" },
+      { "@type": "Place", name: "Hinjewadi, Pune" },
+      { "@type": "Place", name: "Kothrud, Pune" },
+      { "@type": "Place", name: "Aundh, Pune" },
+      { "@type": "Place", name: "Viman Nagar, Pune" },
+    ],
+    sameAs: [
+      "https://www.instagram.com/decorplants_/",
+      "https://www.facebook.com/DecorPlants7/",
+      "https://www.linkedin.com/company/decorplants/",
+    ],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Garden & Plant Care Services",
+      itemListElement: [
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Garden Maintenance", areaServed: "Pune" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Balcony Garden Design", areaServed: "Pune" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Terrace Garden Design", areaServed: "Pune" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Vertical Garden Installation", areaServed: "Pune" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Office Plant Care", areaServed: "Pune" } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Indoor Plant Styling", areaServed: "Pune" } },
+      ],
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "5",
+      reviewCount: "150",
+      bestRating: "5",
+      worstRating: "1",
+    },
+    review: [
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Rahul Mehta" },
+        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+        reviewBody: "The entire experience was excellent. They transformed our empty balcony into a beautiful green space that our family absolutely loves.",
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Sneha Kulkarni" },
+        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+        reviewBody: "Very professional team from design to installation. They understood exactly what we wanted for our terrace and delivered beautifully.",
+      },
+      {
+        "@type": "Review",
+        author: { "@type": "Person", name: "Amit Shah" },
+        reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+        reviewBody: "We wanted greenery for our office reception and the result looks fantastic. The maintenance service has also been very reliable.",
+      },
+    ],
     knowsAbout: [
-      "Garden maintenance",
-      "Balcony gardens",
-      "Terrace garden design",
-      "Vertical garden installation",
-      "Office plant maintenance",
+      "Garden Maintenance",
+      "Balcony Garden Design",
+      "Terrace Garden Design",
+      "Vertical Garden Installation",
+      "Office Plant Care",
+      "Indoor Plant Styling",
       "Landscaping",
-      "Plant care",
+      "Plant Care",
+    ],
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How much does a garden design cost in Pune?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The cost depends on the space size, type of garden, plants, planters, materials and level of customization. You can request a free consultation for an accurate quotation from Decor-Plants in Pune.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Do you provide garden maintenance services in Pune?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. Decor-Plants offers regular maintenance visits and annual plans tailored to your garden in Pune, including pruning, plant health checks and seasonal care.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Do you offer a free consultation or site visit?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. We offer a free initial consultation and site visit to understand your space, goals and budget before recommending the next steps. Call +91-8788159687 to book.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Which areas in Pune do you serve?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Decor-Plants serves all areas of Pune including Baner, Wakad, Hinjewadi, Kothrud, Aundh, Viman Nagar, and surrounding localities.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Can you create gardens for small balconies?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Absolutely. We design for compact balconies, patios and corners with space-smart layouts, vertical planting and carefully chosen containers.",
+        },
+      },
     ],
   };
 
   return (
     <main>
+      {/* LocalBusiness schema — triggers Google Business Panel signals */}
       <script
         nonce={nonce}
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(localBusinessSchema).replace(/</g, "\\u003c"),
+        }}
+      />
+      {/* FAQPage schema — renders expandable Q&A rich results in Google */}
+      <script
+        nonce={nonce}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c"),
         }}
       />
       <Header />
