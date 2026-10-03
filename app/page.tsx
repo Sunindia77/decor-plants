@@ -10,6 +10,14 @@ import siteContent from "@/src/content/siteContent.json";
 import { services } from "@/src/data/services";
 
 const spaceChoices = siteContent.spaces.items;
+const spaceLinks: Record<string, string> = {
+  "Home Garden": "/services/garden-design",
+  Balcony: "/services/balcony-gardens",
+  Terrace: "/services/terrace-gardens",
+  Office: "/services/office-plant-maintenance",
+  "Vertical Wall": "/services/vertical-gardens",
+  "Indoor Plants": "/indoor-plants",
+};
 
 const serviceIcons = [
   "bi-flower1",
@@ -321,7 +329,7 @@ export default async function Home() {
 
                   <p>{description}</p>
 
-                  <a href="#services">
+                  <a href={spaceLinks[title] ?? "/plants"}>
                     <span className="visually-hidden">Explore {title}</span>
                     <i className="bi bi-arrow-up-right" aria-hidden="true"></i>
                   </a>

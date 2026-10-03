@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getPlantLandingPath, plantLandingPages } from "@/src/data/plantLandingPages";
 import { services } from "@/src/data/services";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -25,6 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.3,
     },
+    ...plantLandingPages.map((page) => ({
+      url: `${siteUrl}/${getPlantLandingPath(page)}`,
+      lastModified: today,
+      changeFrequency: "monthly" as const,
+      priority: page.type === "hub" || page.type === "local" ? 0.8 : 0.7,
+    })),
     ...services.map((service) => ({
       url: `${siteUrl}/services/${service.slug}`,
       lastModified: today,
@@ -33,4 +40,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     })),
   ];
-}
+}

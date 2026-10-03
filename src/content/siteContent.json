@@ -19,7 +19,7 @@
       { "label": "Home", "href": "/#home" },
       { "label": "Services", "href": "/#services" },
       { "label": "Projects", "href": "/#projects" },
-      { "label": "Plant Guide", "href": "/#spaces" },
+      { "label": "Plant Guide", "href": "/plants" },
       { "label": "Contact", "href": "/#contact" }
     ],
     "ctaButton": "Book a Site Visit"
