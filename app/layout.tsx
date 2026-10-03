@@ -15,6 +15,8 @@ export const metadata: Metadata = {
   },
   description:
     "Decor-Plants offers professional garden maintenance, balcony gardens, terrace gardens, vertical green walls and office plant care in Pune, Maharashtra. Call +91-8788159687 for a free site visit.",
+  authors: [{ name: "Decor-Plants" }],
+  publisher: "Decor-Plants",
 
   // ── Icons ─────────────────────────────────────────────────────────────────
   icons: {
@@ -24,18 +26,29 @@ export const metadata: Metadata = {
 
   // ── Search keywords (supplementary signal) ────────────────────────────────
   keywords: [
-    "garden maintenance Pune",
+    "garden maintenance services Pune",
     "gardening services Pune",
-    "plant care Pune",
-    "balcony garden Pune",
-    "terrace garden Pune",
-    "vertical garden Pune",
+    "plant care services Pune",
+    "balcony garden service Pune",
+    "terrace garden service Pune",
+    "vertical garden installation Pune",
     "indoor plants Pune",
-    "landscaping Pune",
-    "office plants Pune",
-    "garden design Pune",
+    "bonsai plants Pune",
+    "fern plants Pune",
+    "succulent plants Pune",
+    "flowering plants Pune",
+    "ornamental plants Pune",
+    "cactus plants Pune",
+    "climber and creeper plants Pune",
+    "shrub plants Pune",
+    "water plants Pune",
+    "plant pots Pune",
+    "ceramic pots Pune",
+    "decorative pebbles Pune",
+    "landscaping services Pune",
+    "office plant maintenance Pune",
+    "garden design services Pune",
     "Decor-Plants",
-    "decor plants Pune",
   ],
 
   // ── Open Graph (Facebook / LinkedIn / WhatsApp preview) ───────────────────
