@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./globals.css";
+import CommerceProviders from "@/components/CommerceProviders";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.decor-plants.com";
 
@@ -112,7 +113,9 @@ export default function RootLayout({
         {/* Tell the browser the viewport width immediately — prevents extra reflow */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body>{children}</body>
+      <body>
+        <CommerceProviders>{children}</CommerceProviders>
+      </body>
     </html>
   );
 }
