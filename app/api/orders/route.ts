@@ -10,6 +10,27 @@ function requiredString(value: unknown, maxLength: number): value is string {
   return typeof value === "string" && value.trim().length > 0 && value.trim().length <= maxLength;
 }
 
+function isValidEmail(value: string): boolean {
+  const email = value.trim();
+  const atIndex = email.indexOf("@");
+  const domainDotIndex = email.lastIndexOf(".");
+
+  if (
+    atIndex <= 0 ||
+    atIndex !== email.lastIndexOf("@") ||
+    domainDotIndex <= atIndex + 1 ||
+    domainDotIndex >= email.length - 1
+  ) {
+    return false;
+  }
+
+  for (const character of email) {
+    if (character.trim().length === 0) return false;
+  }
+
+  return true;
+}
+
 function parseOrderItems(value: unknown): CartItem[] | null {
   if (!Array.isArray(value) || value.length === 0 || value.length > products.length) return null;
 
@@ -48,7 +69,7 @@ export async function POST(request: Request) {
   if (
     !requiredString(customer.name, 100) ||
     !requiredString(customer.email, 254) ||
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email.trim()) ||
+    !isValidEmail(customer.email) ||
     !requiredString(customer.phone, 20) ||
     !/^(?:\+91[\s-]?)?[6-9]\d{9}$/.test(customer.phone.trim())
   ) {
