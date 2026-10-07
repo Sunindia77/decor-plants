@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getPlantLandingPath, plantLandingPages } from "@/src/data/plantLandingPages";
 import { services } from "@/src/data/services";
+import { products } from "@/data/products";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.decor-plants.com").replace(/\/$/, "");
@@ -26,6 +27,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.3,
     },
+    {
+      url: `${siteUrl}/shop`,
+      lastModified: today,
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+    },
+    ...products.map((product) => ({
+      url: `${siteUrl}/shop/${product.slug}`,
+      lastModified: today,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
     ...plantLandingPages.map((page) => ({
       url: `${siteUrl}/${getPlantLandingPath(page)}`,
       lastModified: today,

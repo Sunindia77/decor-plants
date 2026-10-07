@@ -6,7 +6,7 @@ export default function WhyChooseUs() {
   return (
     <>
       {/* WHY CHOOSE US */}
-      <section className="why-section">
+      <section id="about" className="why-section">
         <div className="container">
           <div className="row align-items-end mb-5">
             <div className="col-lg-7">
