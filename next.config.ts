@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
   // Image optimisation: auto-convert to WebP/AVIF, aggressive caching
   images: {
     formats: ["image/avif", "image/webp"],
+    remotePatterns: [
+      { protocol: "https", hostname: "lh3.googleusercontent.com" },
+    ],
     deviceSizes: [390, 640, 768, 1024, 1280, 1920],
     imageSizes: [64, 128, 256, 384],
     minimumCacheTTL: 31536000, // cache optimised images for 1 year

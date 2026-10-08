@@ -71,6 +71,9 @@ export default function Header() {
                 <i className="bi bi-bag" aria-hidden="true" />
                 <span>{itemCount}</span>
               </Link>
+              <Link className="shop-nav-icon" href="/account" aria-label="Your account">
+                <i className="bi bi-person-circle" aria-hidden="true" />
+              </Link>
               <Link className="shop-header-cta" href="/#contact">Book a visit</Link>
             </div>
           </div>

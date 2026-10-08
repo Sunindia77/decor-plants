@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 import Header from "@/components/Header";
 import { useCart } from "@/context/CartContext";
@@ -29,13 +30,64 @@ function isOrderSuccess(value: unknown): value is { success: true; order: OrderS
 }
 
 export default function CheckoutPage() {
+  const router = useRouter();
   const { items, ready, clearCart } = useCart();
   const lines = getCartLines(items);
   const totals = getCartTotals(lines);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [order, setOrder] = useState<OrderSuccess | null>(null);
+  const [profile, setProfile] = useState<{ name: string; email: string } | null>(null);
+  const [profileReady, setProfileReady] = useState(false);
   const hasEnoughStock = lines.every((line) => line.quantity <= line.product.stock && line.product.stock > 0);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadProfile(): Promise<void> {
+      try {
+        const response = await fetch("/api/auth/me", { cache: "no-store" });
+        const result: unknown = await response.json();
+        if (!response.ok) {
+          throw new Error("We could not load your signed-in profile. Please try again.");
+        }
+
+        if (
+          typeof result !== "object" ||
+          result === null ||
+          !("user" in result) ||
+          typeof result.user !== "object" ||
+          result.user === null ||
+          !("email" in result.user) ||
+          typeof result.user.email !== "string"
+        ) {
+          router.replace(`/login?next=${encodeURIComponent("/checkout")}`);
+          return;
+        }
+
+        const name =
+          "name" in result.user && typeof result.user.name === "string" ? result.user.name : "";
+        if (!cancelled) {
+          setProfile({ name, email: result.user.email });
+          setProfileReady(true);
+        }
+      } catch (profileError) {
+        if (!cancelled) {
+          setError(
+            profileError instanceof Error
+              ? profileError.message
+              : "We could not load your signed-in profile.",
+          );
+          setProfileReady(true);
+        }
+      }
+    }
+
+    void loadProfile();
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
   async function placeOrder(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
@@ -98,7 +150,7 @@ export default function CheckoutPage() {
           <h1>Delivery details</h1>
           <p>Tell us where to send your new green friends.</p>
         </div>
-        {!ready ? (
+        {!ready || !profileReady ? (
           <div className="shop-loading-state" role="status">Getting your order ready…</div>
         ) : order ? (
           <div className="shop-order-success" role="status">
@@ -106,8 +158,14 @@ export default function CheckoutPage() {
             <span className="shop-eyebrow">ORDER RECEIVED</span>
             <h2>Thank you for growing with us.</h2>
             <p>Your order reference is <strong>{order.id}</strong>. We have received your order for {formatINR(order.total)}.</p>
-            <p className="shop-payment-note">No payment has been collected. Payment gateway integration can be connected when you are ready.</p>
+            <p>You can see its status and tracking updates from your account.</p>
+            <p className="shop-payment-note">Your order is saved. Payment is pending and has not been collected; a payment option can be connected later.</p>
+            <Link className="shop-checkout-button" href="/account">View your orders</Link>
             <Link className="shop-checkout-button" href="/shop">Back to the shop</Link>
+          </div>
+        ) : !profile ? (
+          <div className="shop-auth-message is-error" role="alert">
+            {error || "We could not load your signed-in profile. Please refresh and try again."}
           </div>
         ) : lines.length === 0 ? (
           <div className="shop-cart-empty">
@@ -124,11 +182,11 @@ export default function CheckoutPage() {
                 <div className="shop-form-grid">
                   <label className="shop-form-field shop-field-full">
                     Full name
-                    <input autoComplete="name" name="name" required maxLength={100} />
+                    <input autoComplete="name" name="name" required maxLength={100} defaultValue={profile.name} />
                   </label>
                   <label className="shop-form-field">
                     Email
-                    <input autoComplete="email" type="email" name="email" required maxLength={254} />
+                    <input autoComplete="email" type="email" name="email" value={profile.email} readOnly />
                   </label>
                   <label className="shop-form-field">
                     Mobile number
