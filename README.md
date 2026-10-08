@@ -10,6 +10,27 @@ Set `NEXT_PUBLIC_SITE_URL` to the public production origin before deployment, fo
 
 The service pages include Pune-focused titles, descriptions, visible copy and FAQs. Search position and eligibility for search result enhancements are determined by search engines and are not guaranteed by metadata or structured data alone.
 
+## Google Sign-in
+
+Customer sign-in and account creation use Google OAuth through Supabase Auth. Copy `.env.example` to `.env.local` and set:
+
+```env
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-supabase-anon-or-publishable-key
+```
+
+In Supabase, enable Google under **Authentication → Providers** and add your site callback URL (`https://your-domain.com/api/auth/callback`; for local development, `http://localhost:3000/api/auth/callback`) to the Supabase Auth redirect URL allow-list. Configure the Google OAuth client with Supabase's callback URL (`https://<project-ref>.supabase.co/auth/v1/callback`) as an authorized redirect URI, then enter the Google client ID and secret in the Supabase provider settings. No service-role key or Google client secret is exposed to the browser. OAuth is initiated and completed on server routes, and the session is stored in secure, HTTP-only cookies in production. The existing API proxy also applies its IP rate limit to auth endpoints.
+
+The `/login` page supports Google sign-in and safe same-site return paths. New customers are created automatically by Supabase on their first successful Google sign-in. `/account` and `/checkout` require a valid Supabase session. Guest product browsing, cart, and wishlist remain available.
+
+## Customer Profiles, Orders, and Tracking
+
+Apply the migrations under `supabase/migrations/` to the Supabase project using the Supabase CLI (`supabase db push`) or paste them into the Supabase SQL Editor in timestamp order. If the customer-order migration was already applied, also apply `20261008225000_admin_order_read_access.sql` to enable the admin's cross-customer order-history view.
+
+Order creation requires a **server-only** Supabase secret key because order writes must bypass customer write permissions while the server checks the signed-in identity and recalculates prices from the catalog. Set `SUPABASE_SECRET_KEY` in the local `.env.local` and production hosting environment. Never prefix it with `NEXT_PUBLIC_`, put its value in `.env.example`, or send it to the browser. The existing `SUPABASE_URL` and `SUPABASE_ANON_KEY` remain the public-key settings. The `/checkout` page and order API require a signed-in Google account; checkout details and catalog prices are bound to that verified user on the server.
+
+The account page reads the authenticated user's Google profile and order history. Customers can read only their own orders. The allowlisted admin account `surajsatav1994@gmial.com` can read all orders and tracking details from the same account page; this is enforced by row-level security in the order and order-item policies. The admin exception is read-only and does not expose customer profile data or grant permission to edit orders. Staff can update `customer_orders.status`, `tracking_number`, and `tracking_url` through the Supabase dashboard; status changes are manual—live carrier tracking is not integrated. Orders accepted by the old in-memory endpoint were not stored, so only orders placed after this migration and implementation will appear in history.
+
 ## Getting Started
 
 First, run the development server:

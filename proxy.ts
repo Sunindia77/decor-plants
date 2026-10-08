@@ -1,4 +1,7 @@
+import { createServerClient } from "@supabase/ssr";
+import type { CookieOptions } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
+import { getSupabaseConfig } from "@/lib/supabase/config";
 
 // ─── Rate limiting (in-memory, per IP) ────────────────────────────────────────
 // Limits each IP to RATE_LIMIT_MAX requests per RATE_LIMIT_WINDOW_MS on /api/*
@@ -70,7 +73,7 @@ const BLOCKED_PATH_PATTERNS = [
 ];
 
 // ─── Main proxy function ───────────────────────────────────────────────────────
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // 1. Block obvious hacker probes — return a clean 404 (reveal nothing)
@@ -87,7 +90,11 @@ export function proxy(request: NextRequest) {
 
     if (isRateLimited(ip)) {
       return new NextResponse(
-        JSON.stringify({ error: "Too many requests. Please try again later." }),
+        JSON.stringify({
+          success: false,
+          message: "Too many requests. Please try again later.",
+          error: "Too many requests. Please try again later.",
+        }),
         {
           status: 429,
           headers: {
@@ -96,6 +103,67 @@ export function proxy(request: NextRequest) {
           },
         }
       );
+    }
+  }
+
+  let redirectUrl: URL | null = null;
+  let authUnavailable = false;
+  let refreshedCookies: Array<{
+    name: string;
+    value: string;
+    options?: CookieOptions;
+  }> = [];
+
+  if (
+    pathname === "/account" ||
+    pathname.startsWith("/account/") ||
+    pathname === "/checkout" ||
+    pathname.startsWith("/checkout/")
+  ) {
+    const supabaseConfig = getSupabaseConfig();
+    if (!supabaseConfig) {
+      redirectUrl = new URL("/login", request.url);
+      redirectUrl.searchParams.set("next", `${pathname}${request.nextUrl.search}`);
+    } else {
+      try {
+        const supabase = createServerClient(supabaseConfig.url, supabaseConfig.key, {
+          cookieOptions: {
+            httpOnly: true,
+            maxAge: 60 * 60 * 24 * 7,
+            path: "/",
+            sameSite: "lax",
+            secure: process.env.NODE_ENV === "production",
+          },
+          cookies: {
+            getAll() {
+              return request.cookies.getAll();
+            },
+            setAll(cookiesToSet) {
+              refreshedCookies = cookiesToSet;
+              for (const { name, value } of cookiesToSet) {
+                request.cookies.set(name, value);
+              }
+            },
+          },
+        });
+        const { data, error } = await supabase.auth.getClaims();
+
+        if (error && (error.status === undefined || error.status >= 500)) {
+          console.error("[auth/proxy] Supabase could not validate the protected-page session.", {
+            code: error.code,
+            status: error.status,
+          });
+          authUnavailable = true;
+        } else if (!data?.claims) {
+          redirectUrl = new URL("/login", request.url);
+          redirectUrl.searchParams.set("next", `${pathname}${request.nextUrl.search}`);
+        }
+      } catch (error) {
+        console.error("[auth/proxy] Session validation request failed.", {
+          name: error instanceof Error ? error.name : "UnknownError",
+        });
+        authUnavailable = true;
+      }
     }
   }
 
@@ -108,10 +176,19 @@ export function proxy(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-nonce", nonce);
   requestHeaders.set("Content-Security-Policy", csp);
+  if (refreshedCookies.length > 0) {
+    requestHeaders.set("cookie", request.cookies.toString());
+  }
 
-  const response = NextResponse.next({
-    request: { headers: requestHeaders },
-  });
+  const response = authUnavailable
+    ? new NextResponse("Sign-in is temporarily unavailable. Please try again later.", { status: 503 })
+    : redirectUrl
+      ? NextResponse.redirect(redirectUrl)
+      : NextResponse.next({ request: { headers: requestHeaders } });
+
+  for (const { name, value, options } of refreshedCookies) {
+    response.cookies.set(name, value, options);
+  }
 
   // 4. Set all security response headers
   response.headers.set("Content-Security-Policy", csp);
