@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 
   // ── Brand & default title ──────────────────────────────────────────────────
   title: {
-    default: "Decor-Plants | Garden & Plant Care Services in Pune",
+    default: "Decor-Plants | Indoor Plants, Planters & Garden Care",
     template: "%s | Decor-Plants",
   },
   description:
-    "Decor-Plants offers professional garden maintenance, balcony gardens, terrace gardens, vertical green walls and office plant care in Pune, Maharashtra. Call +91-8788159687 for a free site visit.",
+    "Discover thoughtfully chosen indoor plants, planters and garden care from Decor-Plants. Shop online or get help with your home garden in Pune, Maharashtra.",
   authors: [{ name: "Decor-Plants" }],
   publisher: "Decor-Plants",
 
@@ -57,9 +57,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     siteName: "Decor-Plants",
-    title: "Decor-Plants | Garden & Plant Care Services in Pune",
+    title: "Decor-Plants | Indoor Plants, Planters & Garden Care",
     description:
-      "Professional garden maintenance, balcony, terrace & vertical gardens, and office plant care in Pune. 500+ happy clients. Free site visit.",
+      "Thoughtfully picked plants, considered pots and garden care for the places you call home.",
     url: SITE_URL,
     images: [
       {
@@ -74,9 +74,9 @@ export const metadata: Metadata = {
   // ── Twitter / X card ──────────────────────────────────────────────────────
   twitter: {
     card: "summary_large_image",
-    title: "Decor-Plants | Garden & Plant Care Services in Pune",
+    title: "Decor-Plants | Indoor Plants, Planters & Garden Care",
     description:
-      "Professional garden maintenance, balcony, terrace & vertical gardens in Pune. 500+ happy clients. Free site visit.",
+      "Thoughtfully picked plants and pots for a home that grows with you.",
     images: ["/images/garden/Luxury%20Terrace%20Garden.png"],
   },
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import AccountPanel from "@/components/AccountPanel";
 import Header from "@/components/Header";
+import SiteFooter from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Your account",
@@ -17,6 +18,7 @@ export default async function AccountPage() {
       <section className="shop-auth-page shop-account-auth-page">
         <AccountPanel />
       </section>
+      <SiteFooter />
     </main>
   );
 }

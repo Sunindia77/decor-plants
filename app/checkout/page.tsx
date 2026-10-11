@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import Header from "@/components/Header";
+import SiteFooter from "@/components/SiteFooter";
 import { useCart } from "@/context/CartContext";
 import { getCartLines, getCartTotals, formatINR } from "@/lib/commerce";
 
@@ -440,6 +441,7 @@ export default function CheckoutPage() {
           </form>
         )}
       </section>
+      <SiteFooter />
     </main>
   );
 }

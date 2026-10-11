@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Header from "@/components/Header";
 import ProductGrid from "@/components/ProductGrid";
+import SiteFooter from "@/components/SiteFooter";
 import { products } from "@/data/products";
 import { useWishlist } from "@/context/WishlistContext";
 
@@ -32,6 +33,7 @@ export default function WishlistPage() {
           </div>
         )}
       </section>
+      <SiteFooter />
     </main>
   );
 }

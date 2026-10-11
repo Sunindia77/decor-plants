@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Header from "@/components/Header";
+import SiteFooter from "@/components/SiteFooter";
 import CartItemRow from "@/components/CartItem";
 import CartSummary from "@/components/CartSummary";
 import { useCart } from "@/context/CartContext";
@@ -41,6 +42,7 @@ export default function CartPage() {
           </div>
         )}
       </section>
+      <SiteFooter />
     </main>
   );
 }

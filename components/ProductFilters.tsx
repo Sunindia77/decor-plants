@@ -3,7 +3,7 @@
 import { shopCategories } from "@/data/categories";
 import type { ProductCategory } from "@/types/product";
 
-export type ProductCategoryFilter = "All Plants" | ProductCategory;
+export type ProductCategoryFilter = "All Plants" | ProductCategory | "Air Purifying Plants" | "Low Maintenance";
 export type ProductSort = "featured" | "price-asc" | "price-desc" | "rating" | "newest";
 
 interface ProductFiltersProps {
@@ -15,11 +15,26 @@ interface ProductFiltersProps {
   onVarietyChange: (variety: string) => void;
   sort: ProductSort;
   onSortChange: (sort: ProductSort) => void;
+  minimumPrice: number | "";
+  maximumPrice: number | "";
+  light: string;
+  watering: string;
+  lightOptions: string[];
+  wateringOptions: string[];
+  inStockOnly: boolean;
+  onMinimumPriceChange: (price: number | "") => void;
+  onMaximumPriceChange: (price: number | "") => void;
+  onLightChange: (light: string) => void;
+  onWateringChange: (watering: string) => void;
+  onInStockOnlyChange: (onlyAvailable: boolean) => void;
+  onResetFilters: () => void;
 }
 
 const categoryFilters: ProductCategoryFilter[] = [
   "All Plants",
   ...shopCategories.map((category) => category.label),
+  "Air Purifying Plants",
+  "Low Maintenance",
 ];
 
 export default function ProductFilters({
@@ -31,6 +46,19 @@ export default function ProductFilters({
   onVarietyChange,
   sort,
   onSortChange,
+  minimumPrice,
+  maximumPrice,
+  light,
+  watering,
+  lightOptions,
+  wateringOptions,
+  inStockOnly,
+  onMinimumPriceChange,
+  onMaximumPriceChange,
+  onLightChange,
+  onWateringChange,
+  onInStockOnlyChange,
+  onResetFilters,
 }: ProductFiltersProps) {
   const selectedCategory = shopCategories.find((item) => item.label === category);
   const selectedSubcategory = selectedCategory?.subcategories.find((item) => item.label === subcategory);
@@ -128,6 +156,71 @@ export default function ProductFilters({
           </div>
         </div>
       )}
+      <details className="shop-refine-panel">
+        <summary><i className="bi bi-sliders" aria-hidden="true" /> Refine your search</summary>
+        <div className="shop-refine-controls">
+          <fieldset className="shop-price-fields">
+            <legend>Price range</legend>
+            <label>
+              <span>Minimum price</span>
+              <span className="shop-price-input">
+                <span aria-hidden="true">₹</span>
+                <input
+                  aria-label="Minimum price in rupees"
+                  type="number"
+                  min="0"
+                  step="50"
+                  value={minimumPrice}
+                  onChange={(event) =>
+                    onMinimumPriceChange(event.target.value === "" ? "" : Number(event.target.value))
+                  }
+                />
+              </span>
+            </label>
+            <label>
+              <span>Maximum price</span>
+              <span className="shop-price-input">
+                <span aria-hidden="true">₹</span>
+                <input
+                  aria-label="Maximum price in rupees"
+                  type="number"
+                  min="0"
+                  step="50"
+                  value={maximumPrice}
+                  onChange={(event) =>
+                    onMaximumPriceChange(event.target.value === "" ? "" : Number(event.target.value))
+                  }
+                />
+              </span>
+            </label>
+          </fieldset>
+          <label className="shop-refine-select">
+            <span>Light requirement</span>
+            <select value={light} onChange={(event) => onLightChange(event.target.value)}>
+              <option value="All">Any light</option>
+              {lightOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+            </select>
+          </label>
+          <label className="shop-refine-select">
+            <span>Watering needs</span>
+            <select value={watering} onChange={(event) => onWateringChange(event.target.value)}>
+              <option value="All">Any watering</option>
+              {wateringOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+            </select>
+          </label>
+          <label className="shop-stock-filter">
+            <input
+              type="checkbox"
+              checked={inStockOnly}
+              onChange={(event) => onInStockOnlyChange(event.target.checked)}
+            />
+            In stock only
+          </label>
+          <button className="shop-reset-filters" type="button" onClick={onResetFilters}>
+            Clear filters
+          </button>
+        </div>
+      </details>
     </div>
   );
 }
