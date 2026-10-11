@@ -31,11 +31,15 @@ type OrderStatus =
   | "delivered"
   | "cancelled";
 
+type PaymentStatus = "pending" | "paid" | "failed";
+
 interface CustomerOrder {
   id: string;
   orderNumber: string;
   createdAt: string;
   status: OrderStatus;
+  paymentStatus: PaymentStatus;
+  paymentPaidAt: string | null;
   trackingNumber: string | null;
   trackingUrl: string | null;
   total: number;
@@ -122,6 +126,9 @@ function parseOrder(value: unknown): CustomerOrder | null {
     typeof value.created_at !== "string" ||
     typeof value.status !== "string" ||
     !validStatuses.has(value.status as OrderStatus) ||
+    (value.payment_status !== "pending" &&
+      value.payment_status !== "paid" &&
+      value.payment_status !== "failed") ||
     typeof value.total !== "number" ||
     !Array.isArray(value.items)
   ) {
@@ -137,6 +144,8 @@ function parseOrder(value: unknown): CustomerOrder | null {
     orderNumber: value.order_number,
     createdAt: value.created_at,
     status: value.status as OrderStatus,
+    paymentStatus: value.payment_status,
+    paymentPaidAt: typeof value.payment_paid_at === "string" ? value.payment_paid_at : null,
     trackingNumber: typeof value.tracking_number === "string" ? value.tracking_number : null,
     trackingUrl:
       trackingUrl && /^https?:\/\//i.test(trackingUrl) ? trackingUrl : null,
@@ -342,6 +351,12 @@ export default function AccountPanel() {
                     {getStatusLabel(order.status)}
                   </span>
                 </header>
+                <p className="shop-order-payment-status">
+                  Payment: <strong>{order.paymentStatus === "paid" ? "Paid" : order.paymentStatus === "failed" ? "Failed" : "Pending"}</strong>
+                  {order.paymentPaidAt && (
+                    <> · Paid {new Date(order.paymentPaidAt).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</>
+                  )}
+                </p>
 
                 <OrderTracking order={order} />
 
