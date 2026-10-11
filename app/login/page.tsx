@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import LoginForm from "@/components/LoginForm";
+import SiteFooter from "@/components/SiteFooter";
 import { safeRedirectPath } from "@/lib/auth";
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default async function LoginPage({
           errorMessage={errorMessage}
         />
       </section>
+      <SiteFooter />
     </main>
   );
 }

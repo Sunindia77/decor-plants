@@ -74,7 +74,7 @@ export default function Header() {
               <Link className="shop-nav-icon" href="/account" aria-label="Your account">
                 <i className="bi bi-person-circle" aria-hidden="true" />
               </Link>
-              <Link className="shop-header-cta" href="/#contact">Book a visit</Link>
+              <Link className="shop-header-cta" href="/services/garden-maintenance">Plant care</Link>
             </div>
           </div>
         </div>

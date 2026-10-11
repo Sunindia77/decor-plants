@@ -4,7 +4,9 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import Header from "@/components/Header";
+import ProductCard from "@/components/ProductCard";
 import ProductPurchasePanel from "@/components/ProductPurchasePanel";
+import SiteFooter from "@/components/SiteFooter";
 import { products } from "@/data/products";
 import { formatINR } from "@/lib/commerce";
 
@@ -33,6 +35,9 @@ export default async function ProductDetailsPage({
   const discount = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
+  const relatedProducts = products
+    .filter((entry) => entry.category === product.category && entry.id !== product.id)
+    .slice(0, 4);
 
   return (
     <main className="shop-page">
@@ -94,7 +99,26 @@ export default async function ProductDetailsPage({
           </div>
           <div className="shop-detail-price-footnote">Current price: {formatINR(product.price)} · Taxes included</div>
         </section>
+        {relatedProducts.length > 0 && (
+          <section className="shop-related-products" aria-labelledby="related-products-heading">
+            <div className="storefront-section-heading">
+              <div>
+                <span className="storefront-kicker">More to make room for</span>
+                <h2 id="related-products-heading">You might also like</h2>
+              </div>
+              <Link className="storefront-text-link" href={`/shop?category=${encodeURIComponent(product.category)}`}>
+                Shop {product.category} <i className="bi bi-arrow-right" aria-hidden="true" />
+              </Link>
+            </div>
+            <div className="shop-product-grid">
+              {relatedProducts.map((relatedProduct) => (
+                <ProductCard key={relatedProduct.id} product={relatedProduct} />
+              ))}
+            </div>
+          </section>
+        )}
       </div>
+      <SiteFooter />
     </main>
   );
 }

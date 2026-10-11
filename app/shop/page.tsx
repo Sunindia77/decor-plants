@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
+import SiteFooter from "@/components/SiteFooter";
 import ShopCatalog from "@/components/ShopCatalog";
+import { shopCategories } from "@/data/categories";
 import { products } from "@/data/products";
 
 export const metadata: Metadata = {
@@ -11,10 +13,16 @@ export const metadata: Metadata = {
 export default async function ShopPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string | string[] }>;
+  searchParams: Promise<{ q?: string | string[]; category?: string | string[] }>;
 }) {
   const params = await searchParams;
   const initialSearch = typeof params.q === "string" ? params.q : "";
+  const categoryValue = typeof params.category === "string" ? params.category : "";
+  const initialCategory =
+    shopCategories.find((category) => category.label === categoryValue)?.label ??
+    (categoryValue === "Air Purifying Plants" || categoryValue === "Low Maintenance"
+      ? categoryValue
+      : undefined);
 
   return (
     <main className="shop-page">
@@ -47,7 +55,11 @@ export default async function ShopPage({
             </div>
             <p>Good things grow with a little care. Find the right plant to start yours.</p>
           </div>
-          <ShopCatalog products={products} initialSearch={initialSearch} />
+          <ShopCatalog
+            products={products}
+            initialSearch={initialSearch}
+            initialCategory={initialCategory}
+          />
         </div>
       </section>
       <section className="shop-perks" aria-label="Shopping benefits">
@@ -55,6 +67,7 @@ export default async function ShopPage({
         <div><i className="bi bi-flower2" aria-hidden="true" /><span><strong>Picked with care</strong>Hand-selected by our plant people.</span></div>
         <div><i className="bi bi-chat-heart" aria-hidden="true" /><span><strong>Here to help</strong>Friendly advice for every new leaf.</span></div>
       </section>
+      <SiteFooter />
     </main>
   );
 }
