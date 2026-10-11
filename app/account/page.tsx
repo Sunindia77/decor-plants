@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import AccountPanel from "@/components/AccountPanel";
 import Header from "@/components/Header";
 
@@ -7,7 +8,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function AccountPage() {
+export default async function AccountPage() {
+  await headers();
+
   return (
     <main className="shop-page">
       <Header />

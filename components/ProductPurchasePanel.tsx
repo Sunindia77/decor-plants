@@ -67,7 +67,7 @@ export default function ProductPurchasePanel({ product }: { product: Product }) 
         Buy now
       </button>
       <p className="shop-payment-note">
-        <i className="bi bi-shield-check" aria-hidden="true" /> Secure checkout · Payment options coming soon
+        <i className="bi bi-shield-check" aria-hidden="true" /> Secure online payment with Razorpay
       </p>
       <Link className="shop-continue-link" href="/shop">
         <i className="bi bi-arrow-left" aria-hidden="true" /> Continue shopping

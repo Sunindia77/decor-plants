@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import Header from "@/components/Header";
 import { useCart } from "@/context/CartContext";
@@ -13,20 +13,101 @@ interface OrderSuccess {
   total: number;
 }
 
-function isOrderSuccess(value: unknown): value is { success: true; order: OrderSuccess } {
-  if (typeof value !== "object" || value === null || !("success" in value) || !("order" in value)) {
-    return false;
+interface RazorpayCheckoutResponse {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}
+
+interface RazorpayOptions {
+  key: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string;
+  prefill: { name: string; email: string; contact: string };
+  theme: { color: string };
+  handler: (response: RazorpayCheckoutResponse) => void | Promise<void>;
+  modal: { ondismiss: () => void };
+}
+
+interface RazorpayInstance {
+  open: () => void;
+  on: (event: "payment.failed", handler: (response: { error?: { description?: string } }) => void) => void;
+}
+
+declare global {
+  interface Window {
+    Razorpay?: new (options: RazorpayOptions) => RazorpayInstance;
   }
-  const order = value.order;
-  return (
-    value.success === true &&
-    typeof order === "object" &&
-    order !== null &&
-    "id" in order &&
-    "total" in order &&
-    typeof order.id === "string" &&
-    typeof order.total === "number"
-  );
+}
+
+interface PendingVerification {
+  customerOrderId: string;
+  response: RazorpayCheckoutResponse;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function getCheckoutRequestId(fingerprint: string): string {
+  const storageKey = "decor-plants-checkout-request";
+  const fingerprintKey = "decor-plants-checkout-fingerprint";
+  const existing = window.sessionStorage.getItem(storageKey);
+  if (
+    existing &&
+    /^[0-9a-f-]{36}$/i.test(existing) &&
+    window.sessionStorage.getItem(fingerprintKey) === fingerprint
+  ) {
+    return existing;
+  }
+  const next = window.crypto.randomUUID();
+  window.sessionStorage.setItem(storageKey, next);
+  window.sessionStorage.setItem(fingerprintKey, fingerprint);
+  return next;
+}
+
+function rotateCheckoutRequestId(): void {
+  window.sessionStorage.removeItem("decor-plants-checkout-request");
+  window.sessionStorage.removeItem("decor-plants-checkout-fingerprint");
+}
+
+async function loadRazorpay(): Promise<void> {
+  if (window.Razorpay) return;
+
+  await new Promise<void>((resolve, reject) => {
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      'script[src="https://checkout.razorpay.com/v1/checkout.js"]',
+    );
+    const script = existingScript ?? document.createElement("script");
+
+    const onLoad = () => window.Razorpay ? resolve() : reject(new Error("Payment checkout could not be loaded."));
+    const onError = () => {
+      script.remove();
+      reject(new Error("Payment checkout could not be loaded. Check your connection and retry."));
+    };
+    const timeout = window.setTimeout(
+      () => {
+        script.remove();
+        reject(new Error("Payment checkout timed out. Please check your connection and retry."));
+      },
+      20_000,
+    );
+    const settle = (callback: () => void) => {
+      window.clearTimeout(timeout);
+      callback();
+    };
+    script.addEventListener("load", () => settle(onLoad), { once: true });
+    script.addEventListener("error", () => settle(onError), { once: true });
+
+    if (!existingScript) {
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  });
 }
 
 export default function CheckoutPage() {
@@ -35,10 +116,13 @@ export default function CheckoutPage() {
   const lines = getCartLines(items);
   const totals = getCartTotals(lines);
   const [submitting, setSubmitting] = useState(false);
+  const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState("");
   const [order, setOrder] = useState<OrderSuccess | null>(null);
+  const [pendingVerification, setPendingVerification] = useState<PendingVerification | null>(null);
   const [profile, setProfile] = useState<{ name: string; email: string } | null>(null);
   const [profileReady, setProfileReady] = useState(false);
+  const verificationStarted = useRef(false);
   const hasEnoughStock = lines.every((line) => line.quantity <= line.product.stock && line.product.stock > 0);
 
   useEffect(() => {
@@ -48,25 +132,18 @@ export default function CheckoutPage() {
       try {
         const response = await fetch("/api/auth/me", { cache: "no-store" });
         const result: unknown = await response.json();
-        if (!response.ok) {
-          throw new Error("We could not load your signed-in profile. Please try again.");
-        }
+        if (!response.ok) throw new Error("We could not load your signed-in profile. Please try again.");
 
         if (
-          typeof result !== "object" ||
-          result === null ||
-          !("user" in result) ||
-          typeof result.user !== "object" ||
-          result.user === null ||
-          !("email" in result.user) ||
+          !isRecord(result) ||
+          !isRecord(result.user) ||
           typeof result.user.email !== "string"
         ) {
           router.replace(`/login?next=${encodeURIComponent("/checkout")}`);
           return;
         }
 
-        const name =
-          "name" in result.user && typeof result.user.name === "string" ? result.user.name : "";
+        const name = typeof result.user.name === "string" ? result.user.name : "";
         if (!cancelled) {
           setProfile({ name, email: result.user.email });
           setProfileReady(true);
@@ -89,14 +166,56 @@ export default function CheckoutPage() {
     };
   }, [router]);
 
+  async function verifyPayment(pending: PendingVerification): Promise<void> {
+    setVerifying(true);
+    setError("");
+    try {
+      const response = await fetch("/api/payments/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customerOrderId: pending.customerOrderId,
+          ...pending.response,
+        }),
+      });
+      const result: unknown = await response.json();
+      if (
+        !response.ok ||
+        !isRecord(result) ||
+        result.success !== true ||
+        !isRecord(result.order) ||
+        typeof result.order.id !== "string" ||
+        typeof result.order.total !== "number" ||
+        result.order.paymentStatus !== "paid"
+      ) {
+        const message =
+          isRecord(result) && typeof result.error === "string"
+            ? result.error
+            : "Payment confirmation is delayed. Your cart is safe; retry verification or check your order history.";
+        setError(message);
+        return;
+      }
+
+      setOrder({ id: result.order.id, total: result.order.total });
+      setPendingVerification(null);
+      window.sessionStorage.removeItem("decor-plants-checkout-request");
+      window.sessionStorage.removeItem("decor-plants-checkout-fingerprint");
+      clearCart();
+    } catch {
+      setError("Payment confirmation could not be reached. Your cart is safe; please retry verification.");
+    } finally {
+      setVerifying(false);
+      setSubmitting(false);
+    }
+  }
+
   async function placeOrder(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
-    if (lines.length === 0 || !hasEnoughStock || submitting) return;
+    if (lines.length === 0 || !hasEnoughStock || submitting || pendingVerification) return;
 
     const formData = new FormData(event.currentTarget);
     const customer = {
       name: String(formData.get("name") ?? "").trim(),
-      email: String(formData.get("email") ?? "").trim(),
       phone: String(formData.get("phone") ?? "").trim(),
     };
     const address = {
@@ -105,38 +224,107 @@ export default function CheckoutPage() {
       state: String(formData.get("state") ?? "").trim(),
       pincode: String(formData.get("pincode") ?? "").trim(),
     };
+    const checkoutFingerprint = JSON.stringify({
+      customer,
+      address,
+      items: lines.map(({ productId, quantity }) => ({ productId, quantity })),
+    });
 
     setSubmitting(true);
     setError("");
+    verificationStarted.current = false;
     try {
-      const response = await fetch("/api/orders", {
+      const response = await fetch("/api/payments/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customer,
           address,
           items: lines.map(({ productId, quantity }) => ({ productId, quantity })),
-          total: totals.total,
+          checkoutRequestId: getCheckoutRequestId(checkoutFingerprint),
         }),
       });
       const result: unknown = await response.json();
-      if (!response.ok) {
-        const message =
-          typeof result === "object" && result !== null && "error" in result && typeof result.error === "string"
+      if (!response.ok || !isRecord(result) || result.success !== true || !isRecord(result.order)) {
+        setError(
+          isRecord(result) && typeof result.error === "string"
             ? result.error
-            : "We couldn’t place your order. Please check your details and try again.";
-        setError(message);
+            : "We could not prepare your payment. Please check your details and try again.",
+        );
+        setSubmitting(false);
         return;
       }
-      if (!isOrderSuccess(result)) {
-        setError("We received an unexpected response. Please contact us before trying again.");
+
+      const customerOrderId = result.order.id;
+      const orderNumber = result.order.orderNumber;
+      const orderTotal = result.order.total;
+      if (typeof customerOrderId !== "string" || typeof orderNumber !== "string" || typeof orderTotal !== "number") {
+        setError("We received an unexpected order response. Please contact support before retrying.");
+        setSubmitting(false);
         return;
       }
-      setOrder(result.order);
-      clearCart();
-    } catch {
-      setError("We couldn’t reach the order service. Please check your connection and try again.");
-    } finally {
+
+      if (result.alreadyPaid === true) {
+        setOrder({ id: orderNumber, total: orderTotal });
+        window.sessionStorage.removeItem("decor-plants-checkout-request");
+        window.sessionStorage.removeItem("decor-plants-checkout-fingerprint");
+        clearCart();
+        setSubmitting(false);
+        return;
+      }
+
+      if (
+        !isRecord(result.razorpay) ||
+        typeof result.razorpay.keyId !== "string" ||
+        typeof result.razorpay.orderId !== "string" ||
+        typeof result.razorpay.amount !== "number" ||
+        result.razorpay.currency !== "INR"
+      ) {
+        setError("The payment service returned an unexpected response. Please try again.");
+        setSubmitting(false);
+        return;
+      }
+
+      await loadRazorpay();
+      if (!window.Razorpay) throw new Error("Payment checkout could not be loaded.");
+
+      const checkout = new window.Razorpay({
+        key: result.razorpay.keyId,
+        amount: result.razorpay.amount,
+        currency: result.razorpay.currency,
+        name: "Decor-Plants",
+        description: `Order ${orderNumber}`,
+        order_id: result.razorpay.orderId,
+        prefill: { name: customer.name, email: profile?.email ?? "", contact: customer.phone },
+        theme: { color: "#2f6b45" },
+        handler: async (paymentResponse) => {
+          verificationStarted.current = true;
+          const verification = { customerOrderId, response: paymentResponse };
+          setPendingVerification(verification);
+          await verifyPayment(verification);
+        },
+        modal: {
+          ondismiss: () => {
+            if (!verificationStarted.current) {
+              rotateCheckoutRequestId();
+              setError("Payment was cancelled. Your cart is unchanged; you can try again.");
+              setSubmitting(false);
+            }
+          },
+        },
+      });
+      checkout.on("payment.failed", (failure) => {
+        rotateCheckoutRequestId();
+        setError(failure.error?.description || "Payment failed. Please try again.");
+        setSubmitting(false);
+      });
+      checkout.open();
+    } catch (paymentError) {
+      setError(
+        paymentError instanceof Error
+          ? paymentError.message
+          : "The payment service could not be reached. Your cart is unchanged.",
+      );
       setSubmitting(false);
     }
   }
@@ -146,7 +334,7 @@ export default function CheckoutPage() {
       <Header />
       <section className="shop-checkout-page">
         <div className="shop-page-heading">
-          <span className="shop-eyebrow">ONE LAST LITTLE STEP</span>
+          <span className="shop-eyebrow">SECURE CHECKOUT</span>
           <h1>Delivery details</h1>
           <p>Tell us where to send your new green friends.</p>
         </div>
@@ -155,11 +343,11 @@ export default function CheckoutPage() {
         ) : order ? (
           <div className="shop-order-success" role="status">
             <i className="bi bi-check-circle" aria-hidden="true" />
-            <span className="shop-eyebrow">ORDER RECEIVED</span>
-            <h2>Thank you for growing with us.</h2>
-            <p>Your order reference is <strong>{order.id}</strong>. We have received your order for {formatINR(order.total)}.</p>
-            <p>You can see its status and tracking updates from your account.</p>
-            <p className="shop-payment-note">Your order is saved. Payment is pending and has not been collected; a payment option can be connected later.</p>
+            <span className="shop-eyebrow">PAYMENT SUCCESSFUL</span>
+            <h2>Order placed successfully.</h2>
+            <p>Your order number is <strong>{order.id}</strong>.</p>
+            <p>Payment confirmed: <strong>{formatINR(order.total)}</strong></p>
+            <p>You can view your order status and tracking from your account.</p>
             <Link className="shop-checkout-button" href="/account">View your orders</Link>
             <Link className="shop-checkout-button" href="/shop">Back to the shop</Link>
           </div>
@@ -230,13 +418,24 @@ export default function CheckoutPage() {
               <div className="shop-summary-row shop-summary-discount"><span>Discount</span><span>−{formatINR(totals.discount)}</span></div>
               <div className="shop-summary-row"><span>Delivery</span><span>{totals.delivery === 0 ? "Free" : formatINR(totals.delivery)}</span></div>
               <div className="shop-summary-total"><strong>Total</strong><strong>{formatINR(totals.total)}</strong></div>
-              {!hasEnoughStock && <p className="shop-form-error" role="alert">One or more items are no longer available in the requested quantity. Please return to your bag.</p>}
+              {!hasEnoughStock && <p className="shop-form-error" role="alert">One or more items are unavailable in the requested quantity. Please return to your bag.</p>}
               {error && <p className="shop-form-error" role="alert">{error}</p>}
-              <button className="shop-checkout-button" type="submit" disabled={submitting || !hasEnoughStock}>
-                {submitting ? "Placing order…" : "Place order"}
-                {!submitting && <i className="bi bi-arrow-right" aria-hidden="true" />}
-              </button>
-              <p className="shop-secure-note"><i className="bi bi-shield-check" aria-hidden="true" /> No payment is taken at this stage.</p>
+              {pendingVerification ? (
+                <button
+                  className="shop-checkout-button"
+                  type="button"
+                  onClick={() => void verifyPayment(pendingVerification)}
+                  disabled={verifying}
+                >
+                  {verifying ? "Confirming payment…" : "Retry payment verification"}
+                </button>
+              ) : (
+                <button className="shop-checkout-button" type="submit" disabled={submitting || !hasEnoughStock}>
+                  {submitting ? "Opening secure payment…" : "Pay Now"}
+                  {!submitting && <i className="bi bi-arrow-right" aria-hidden="true" />}
+                </button>
+              )}
+              <p className="shop-secure-note"><i className="bi bi-shield-check" aria-hidden="true" /> Secure payment powered by Razorpay</p>
             </aside>
           </form>
         )}

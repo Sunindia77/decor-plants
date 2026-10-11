@@ -31,6 +31,27 @@ Order creation requires a **server-only** Supabase secret key because order writ
 
 The account page reads the authenticated user's Google profile and order history. Customers can read only their own orders. The allowlisted admin account `surajsatav1994@gmial.com` can read all orders and tracking details from the same account page; this is enforced by row-level security in the order and order-item policies. The admin exception is read-only and does not expose customer profile data or grant permission to edit orders. Staff can update `customer_orders.status`, `tracking_number`, and `tracking_url` through the Supabase dashboard; status changes are manual—live carrier tracking is not integrated. Orders accepted by the old in-memory endpoint were not stored, so only orders placed after this migration and implementation will appear in history.
 
+## Razorpay Checkout
+
+Checkout uses Razorpay Checkout with server-created INR orders. The browser never receives `RAZORPAY_KEY_SECRET`, decides the amount, or changes the payment state. The server verifies Razorpay's payment signature, fetches the payment from Razorpay to confirm order, amount, currency, and captured status, captures an authorized payment server-side when necessary, and uses a service-role-only database function to mark the order paid. The signed webhook at `/api/payments/webhook` is a second idempotent source of captured/failed payment updates.
+
+Apply `supabase/migrations/20261008232100_razorpay_payments.sql` and `supabase/migrations/20261008232200_checkout_idempotency_validation.sql` after the existing order/admin migrations. They add payment identifiers and state, per-user checkout idempotency, and protected atomic payment-update functions.
+
+Set these server environment variables in `.env.local` and Vercel Project Settings → Environment Variables:
+
+```env
+RAZORPAY_MODE=test
+RAZORPAY_KEY_ID=rzp_test_...
+RAZORPAY_KEY_SECRET=...
+RAZORPAY_WEBHOOK_SECRET=...
+```
+
+Get the **test** key ID and secret from the Razorpay Dashboard in Test Mode. Configure a webhook pointing to `https://your-domain.com/api/payments/webhook`, subscribe to `payment.captured` and `payment.failed`, and copy the webhook signing secret into `RAZORPAY_WEBHOOK_SECRET`. For local webhook testing, expose the local app through a secure tunnel and use that HTTPS callback URL. Never expose or log the key secret or webhook secret.
+
+For local test payments, restart `npm run dev`, sign in with Google, add a product, and pay with the Razorpay test instruments shown in its test-mode documentation. Use a test mobile number/card/UPI instrument only; no live payment is made in test mode. The app keeps the cart if checkout is cancelled or payment verification is delayed.
+
+For production, configure the live key ID and key secret and set `RAZORPAY_MODE=live` in Vercel, then redeploy. The app checks the key ID prefix against the selected mode to avoid accidentally mixing test and live keys. Razorpay transaction fees are set by Razorpay and apply according to its current merchant pricing; this integration itself adds no subscription or maintenance fee.
+
 ## Getting Started
 
 First, run the development server:

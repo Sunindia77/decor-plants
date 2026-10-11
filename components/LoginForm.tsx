@@ -25,10 +25,10 @@ export default function LoginForm({
         </p>
       )}
 
-      <Link
+      <a
         className="shop-checkout-button shop-google-signin"
-        href={googleSignInUrl}
         aria-disabled={signingIn}
+        href={googleSignInUrl}
         onClick={(event) => {
           if (signingIn) {
             event.preventDefault();
@@ -44,7 +44,7 @@ export default function LoginForm({
           <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.8l-7.73-6c-2.14 1.45-4.88 2.3-8.18 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48Z" />
         </svg>
         {signingIn ? "Redirecting to Google..." : "Continue with Google"}
-      </Link>
+      </a>
 
       <p className="shop-google-signin-note">
         New here? Your account will be created automatically after Google verifies you.

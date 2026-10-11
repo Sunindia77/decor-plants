@@ -32,7 +32,7 @@ function buildCSP(nonce: string, isDev: boolean): string {
     // ── Scripts: nonce-based (strict XSS protection) ──────────────────────────
     // 'unsafe-inline' is intentionally absent — the nonce is the authority.
     // 'strict-dynamic' lets nonce-approved scripts load further scripts.
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ""}`,
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://checkout.razorpay.com${isDev ? " 'unsafe-eval'" : ""}`,
 
     // ── Styles: 'unsafe-inline' without a nonce ───────────────────────────────
     // IMPORTANT: Per CSP3 spec, if a nonce IS present in style-src, the browser
@@ -47,10 +47,10 @@ function buildCSP(nonce: string, isDev: boolean): string {
     `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
 
     // WhatsApp link; Instagram, Facebook & LinkedIn profile links
-    "connect-src 'self' https://wa.me https://api.whatsapp.com https://www.instagram.com https://www.facebook.com https://www.linkedin.com",
-    "img-src 'self' data: blob:",
+    "connect-src 'self' https://api.razorpay.com https://checkout.razorpay.com https://lumberjack.razorpay.com https://wa.me https://api.whatsapp.com https://www.instagram.com https://www.facebook.com https://www.linkedin.com",
+    "img-src 'self' data: blob: https://*.razorpay.com",
     "font-src 'self' https://fonts.gstatic.com data:",
-    "frame-src 'none'",
+    "frame-src https://api.razorpay.com https://checkout.razorpay.com",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
@@ -82,7 +82,7 @@ export async function proxy(request: NextRequest) {
   }
 
   // 2. Rate-limit API routes
-  if (pathname.startsWith("/api/")) {
+  if (pathname.startsWith("/api/") && pathname !== "/api/payments/webhook") {
     const ip =
       request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
       request.headers.get("x-real-ip") ??

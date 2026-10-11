@@ -5953,6 +5953,17 @@ body {
   color: #963c2f;
 }
 
+.shop-order-payment-status {
+  margin: 0;
+  padding: 12px 21px;
+  color: #68756a;
+  font-size: 12px;
+}
+
+.shop-order-payment-status strong {
+  color: #344f39;
+}
+
 .shop-order-timeline {
   display: flex;
   justify-content: space-between;
