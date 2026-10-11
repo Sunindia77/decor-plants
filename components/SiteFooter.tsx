@@ -1,5 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import siteContent from "@/src/content/siteContent.json";
+
+const whatsappUrl = `https://wa.me/${siteContent.site.whatsappNumber.replace(/\D/g, "")}`;
 
 const footerLinks = [
   { label: "Shop all", href: "/shop" },
@@ -39,6 +42,31 @@ export default function SiteFooter() {
           <Link className="site-footer-contact" href="/services/garden-design">
             Let’s talk plants <i className="bi bi-arrow-up-right" aria-hidden="true" />
           </Link>
+          <div className="site-footer-whatsapp">
+            <a
+              className="site-footer-qr-link"
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Scan or open WhatsApp to chat with Decor-Plants"
+            >
+              <Image
+                src="/images/garden/WhatsApp%20BarCode%20Account2020.png"
+                width={160}
+                height={160}
+                sizes="112px"
+                loading="eager"
+                alt="WhatsApp QR code for Decor-Plants"
+              />
+            </a>
+            <div>
+              <strong>Prefer WhatsApp?</strong>
+              <span>Scan the code to start a chat.</span>
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                <i className="bi bi-whatsapp" aria-hidden="true" /> Message us
+              </a>
+            </div>
+          </div>
         </div>
       </div>
       <div className="site-footer-bottom">
